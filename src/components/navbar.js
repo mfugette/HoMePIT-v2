@@ -21,6 +21,9 @@ export default function Navbar() {
         <li>
           <Link href="/settings">Settings</Link>
         </li>
+        <li>
+          <Link href="/pantryTest">Test</Link>
+        </li>
       </ul>
     </nav>
     
