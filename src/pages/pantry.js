@@ -8,11 +8,11 @@ export default function Pantry() {
   const [ingredients, setIngredients] = React.useState([]);
 
   //Method for Adding Ingredients
-  const handleAddIngredient = (name) => {
+  const handleAddIngredient = (name, quantity) => {
     const ingredient = {
-      name,
       id: self.crypto.randomUUID(),
-      quantity: 0,
+      name,
+      quantity,
     };
     setIngredients([...ingredients, ingredient]);
   }
@@ -22,10 +22,24 @@ export default function Pantry() {
   }
 
   const increaseIngredientQty = (id) => {
-    
+    setIngredients(ingredients.map(ingredient => {
+      if (ingredient.id === id) {
+        return { ...ingredient, quantity: ingredient.quantity + 1 }
+      }
+      else {
+        return ingredient;
+      }
+    }))
   }
   const decreaseIngredientQty = (id) => {
-    
+    setIngredients(ingredients.map(ingredient => {
+      if (ingredient.id === id) {
+        return { ...ingredient, quantity: ingredient.quantity - 1 }
+      }
+      else {
+        return ingredient;
+      }
+    }))
   }
 
   // Input boxes for adding an ingredient & list of ingredients in Pantry. Needs to be worked on.
@@ -43,8 +57,9 @@ export default function Pantry() {
               id={ingredient.id}
               name={ingredient.name}
               quantity={ingredient.quantity}
-              // onIncreaseIngredient={increaseIngredientQty}
-              // onDecreaseIngredient={decreaseIngredientQty}
+
+              onIncrease={increaseIngredientQty}
+              onDecrease={decreaseIngredientQty}
               onDeleteIngredient={handleRemoveIngredient}
             />
           ))}
