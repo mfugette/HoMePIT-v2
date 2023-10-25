@@ -22,8 +22,9 @@ export default function Navbar() {
           <Link href="/settings">Settings</Link>
         </li>
         <li>
-          <Link href="/pantryTest">Test</Link>
+          <Link href="/signIn">Sign In</Link>
         </li>
+      
       </ul>
     </nav>
     

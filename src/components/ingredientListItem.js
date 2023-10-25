@@ -14,7 +14,7 @@ export default function IngredientListItem({ id, name, quantity, onIncrease, onD
 
   return (
     <li className="foodList">
-      ({name} (ID: {id}, Qty: {quantity}))
+      {name}: {quantity}
 
       <button onClick={onIncreaseIngredient}>Increase</button>
       <button onClick={onDecreaseIngredient}>Decrease</button>

@@ -1,12 +1,12 @@
 import Head from 'next/head'
 import { Inter } from 'next/font/google'
-// import supabase from '@/config/supabaseClient';
+import supabase from '@/config/supabaseClient';
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
 
-  //console.log(supabase)
+  console.log(supabase)
 
   return (
     <>

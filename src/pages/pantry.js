@@ -13,6 +13,17 @@ export default function Pantry() {
       id: self.crypto.randomUUID(),
       name,
       quantity,
+      threshold,
+      expirationDate,
+      servingSize,
+      calories,
+      protein,
+      fat,
+      carbohydrate,
+      purchasedServings,
+      cost,
+      location,
+      userTags
     };
     setIngredients([...ingredients, ingredient]);
   }
