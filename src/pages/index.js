@@ -1,10 +1,32 @@
 import Head from 'next/head'
 import { Inter } from 'next/font/google'
 import supabase from '@/config/supabaseClient';
+import SignIn from './signIn';
+
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
+
+  
+
+  async function loginWithGoogle() {
+    
+    let { data, error } = await supabase.auth.signInWithOAuth({
+  provider: 'google',
+  options: {
+    queryParams: {
+      access_type: 'offline',
+      prompt: 'consent',
+    },
+  },
+})
+
+  }
+
+  async function logoutWithGoogle() {
+    let { error } = await supabase.auth.signOut()
+  }
 
   console.log(supabase)
 
@@ -14,12 +36,21 @@ export default function Home() {
         <title>HoMePIT</title>
         <meta name="description" content="" />
         <link rel="icon" href="/favicon.ico" />
+        
       </Head>
       <div>
 
         <main>
           <h1>Home Page</h1>
         </main>
+
+        <b>
+          <form>
+            <button onClick={loginWithGoogle}>
+              Sign In
+            </button>
+          </form>
+        </b>
 
         <footer>
           <p>Footer</p>
