@@ -1,7 +1,6 @@
 import Head from 'next/head'
 import { Inter } from 'next/font/google'
 import supabase from '@/config/supabaseClient';
-import SignIn from './signIn';
 
 
 const inter = Inter({ subsets: ['latin'] })
