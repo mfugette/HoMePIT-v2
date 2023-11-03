@@ -7,19 +7,19 @@ const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
 
-  
+
 
   async function loginWithGoogle() {
-    
+
     let { data, error } = await supabase.auth.signInWithOAuth({
-  provider: 'google',
-  options: {
-    queryParams: {
-      access_type: 'offline',
-      prompt: 'consent',
-    },
-  },
-})
+      provider: 'google',
+      options: {
+        queryParams: {
+          access_type: 'offline',
+          prompt: 'consent',
+        },
+      },
+    })
 
   }
 
@@ -35,7 +35,7 @@ export default function Home() {
         <title>HoMePIT</title>
         <meta name="description" content="" />
         <link rel="icon" href="/favicon.ico" />
-        
+
       </Head>
       <div>
 
