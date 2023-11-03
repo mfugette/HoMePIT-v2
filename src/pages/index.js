@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import { Inter } from 'next/font/google'
 import supabase from '@/config/supabaseClient';
-import SignIn from './signIn';
+//import SignIn from './signIn';
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -41,12 +41,13 @@ export default function Home() {
       <div>
 
         <main>
-          <h1>Home Page</h1>
+          <h1 id="homeLogo">Home Page</h1>
         </main>
 
-        <b>
-          <form>
-            <button onClick={loginWithGoogle}>
+        <b id="">
+          <form id="signIn">
+            <h4> Sign in with google </h4>
+            <button onClick={loginWithGoogle} >
               Sign In
             </button>
           </form>
