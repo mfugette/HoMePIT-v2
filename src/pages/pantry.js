@@ -1,6 +1,6 @@
 import React from 'react';
-import IngredientAddForm from '../components/ingredientAddForm.js';
-import IngredientListItem from '../components/ingredientListItem.js';
+import IngredientAddForm from '../components/pantryComponents/ingredientAddForm.js';
+import IngredientListItem from '../components/pantryComponents/ingredientListItem.js';
 
 export default function Pantry() {
 
