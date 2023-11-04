@@ -3,31 +3,17 @@ import { Inter } from 'next/font/google'
 import supabase from '@/config/supabaseClient';
 //import { loginWithGoogle } from '@/config/supabaseClient';
 
+import { useSession } from "next-auth/react"
+
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
 
-  //console.log(supabase)
-  async function loginWithGoogle() {
-    // supabase.auth.signInWithOAuth({
-    //   provider: 'google',
-    // })
-
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        queryParams: {
-          access_type: 'offline',
-          prompt: 'consent',
-        },
-      },
-    })
-    console.log(data)
-    console.log(error)
-
-
-  }
+  
+// supabase.auth.signInWithOAuth({
+//       provider: 'google',
+//     })
   return (
     <>
       <Head>
@@ -42,9 +28,11 @@ export default function Home() {
           <h1>Home Page</h1>
         </main>
 
+
         <b>
           <form>
-            <button onClick={ loginWithGoogle() }>Sign In</button>
+            {/* { handleSignInWithGoogle() } */}
+            {/* <button onClick={ () => }>Sign In</button> */}
           </form>
         </b>
 

@@ -36,6 +36,10 @@ li {
   float: left;
 }
 
+.signin {
+  float: right;
+}
+
 li a {
   display: block;
   color: white;
