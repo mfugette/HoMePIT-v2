@@ -45,7 +45,6 @@ a {
 
 /*Navbar CSS*/
 ul {
-  
   list-style-type: none;
   margin: 0;
   padding: 0;
@@ -61,6 +60,11 @@ ul {
 
 li {
   float: left;
+}
+
+.signin {
+  float: right;
+  background-color: red;
 }
 
 li a {
