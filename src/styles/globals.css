@@ -2,10 +2,36 @@
 
 html,
 body {
+  background-color: burlywood;
   padding: 0;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+/*homepage*/
+#intro {
+  text-align: center;
+  vertical-align: middle;
+}
+
+#homeLogo {
+  width: 175%;
+  padding: 5%;
+  background-color: blanchedalmond;
+  text-align: center;
+  vertical-align: middle;
+  border: 5%, solid, black;
+}
+
+#signIn {
+  width: 200%;
+  padding: 20%;
+  background-color: blanchedalmond;
+  text-align: center;
+  vertical-align: middle;
+  border: 5%, solid, black;
+
 }
 
 a {
@@ -19,6 +45,7 @@ a {
 
 /*Navbar CSS*/
 ul {
+  
   list-style-type: none;
   margin: 0;
   padding: 0;
@@ -42,6 +69,7 @@ li a {
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
+  
 }
 
 /* Changes to black on hover */

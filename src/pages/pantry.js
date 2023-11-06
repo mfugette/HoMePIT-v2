@@ -1,6 +1,6 @@
 import React from 'react';
-import IngredientAddForm from '../components/ingredientAddForm.js';
-import IngredientListItem from '../components/ingredientListItem.js';
+import IngredientAddForm from '../components/pantryComponents/ingredientAddForm.js';
+import IngredientListItem from '../components/pantryComponents/ingredientListItem.js';
 
 export default function Pantry() {
 
@@ -8,7 +8,22 @@ export default function Pantry() {
   const [ingredients, setIngredients] = React.useState([]);
 
   //Method for Adding Ingredients
-  const handleAddIngredient = (name, quantity) => {
+  const handleAddIngredient = (
+    name,
+    quantity,
+    threshold,
+    expirationDate,
+    servingSize,
+    calories,
+    protein,
+    fat,
+    carbohydrate,
+    purchasedServings,
+    cost,
+    location,
+    userTags
+  ) => {
+
     const ingredient = {
       id: self.crypto.randomUUID(),
       name,
@@ -68,6 +83,7 @@ export default function Pantry() {
               id={ingredient.id}
               name={ingredient.name}
               quantity={ingredient.quantity}
+              threshold={ingredient.threshold}
 
               onIncrease={increaseIngredientQty}
               onDecrease={decreaseIngredientQty}

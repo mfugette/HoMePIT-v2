@@ -7,7 +7,7 @@ import 'reactjs-popup/dist/index.css';
 //const [ingredientQuantity, setIngredientQuantity] = React.useState(0);
 
 export default function IngredientAddForm({ onAddIngredient }) {
-    const [name, setName] = React.useState("");
+    const [name, setName] = React.useState('');
     const [quantity, setQuantity] = React.useState('');
     const [threshold, setThreshold] = React.useState('');
     const [expirationDate, setExpirationDate] = React.useState('');
@@ -39,7 +39,7 @@ export default function IngredientAddForm({ onAddIngredient }) {
             userTags
             );
 
-        setName("");
+        setName('');
         setQuantity(0);
         setThreshold(0);
         setExpirationDate('');
@@ -64,7 +64,7 @@ export default function IngredientAddForm({ onAddIngredient }) {
                 <h3>Input Food</h3>
                 <input type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
                 <input type="text" placeholder="Quantity" value={quantity} onChange={(e) => setQuantity(parseInt(e.target.value))} />
-                <input type="text" placeholder="Threshold" value={threshold} onChange={(e) => setThreshold(e.target.value)} />
+                <input type="text" placeholder="Threshold" value={threshold} onChange={(e) => setThreshold(parseInt(e.target.value))} />
                 <input type="text" placeholder="Expiration Date" value={expirationDate} onChange={(e) => setExpirationDate(e.target.value)} />
                 <input type="text" placeholder="Serving Size" value={servingSize} onChange={(e) => setServingSize(e.target.value)} />
                 <input type="text" placeholder="Calories" value={calories} onChange={(e) => setCalories(e.target.value)} />
