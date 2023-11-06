@@ -23,24 +23,24 @@ export default function Home() {
 
       </Head>
       <body id = "intro">
-      <div>
+        <div>
 
-        <main>
-          <h1 id="homeLogo">HoMePIT</h1>
-        </main>
+          <main>
+            <h1 id="homeLogo">HoMePIT</h1>
+          </main>
 
 
-        <b>
-          <form>
-            {/* { handleSignInWithGoogle() } */}
-            {/* <button onClick={ () => }>Sign In</button> */}
-          </form>
-        </b>
+          <b>
+            <form>
+              {/* { handleSignInWithGoogle() } */}
+              {/* <button onClick={ () => }>Sign In</button> */}
+            </form>
+          </b>
 
-        <footer>
-          <p>Footer</p>
-        </footer>
-      </div>
+          <footer>
+            <p>Footer</p>
+          </footer>
+        </div>
       </body>
     </>
   )
