@@ -4,7 +4,7 @@ import supabase from '@/config/supabaseClient';
 //import { loginWithGoogle } from '@/config/supabaseClient';
 //import { handleAuth } from '@/components/userAuth';
 
-import { useSession } from "next-auth/react"
+//import { useSession } from "next-auth/react"
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -25,23 +25,26 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
 
       </Head>
-      <div>
+      <body id = "intro">
+        <div>
 
-        <main>
-          <h1>Home Page</h1>
-        </main>
+          <main>
+            <h1 id="homeLogo">HoMePIT</h1>
+          </main>
 
 
         <b>
           <form>
-            {/* <button onClick={() => handleAuth}>Sign In</button> */}
+            {/* { handleSignInWithGoogle() } */}
+            {/* <button onClick={ () => }>Sign In</button> */}
           </form>
         </b>
 
-        <footer>
-          <p>Footer</p>
-        </footer>
-      </div>
+          <footer>
+            <p>Footer</p>
+          </footer>
+        </div>
+      </body>
     </>
   )
 }
