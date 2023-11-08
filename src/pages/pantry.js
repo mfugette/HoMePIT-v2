@@ -42,7 +42,6 @@ export default function Pantry() {
       userTags
     };
     setIngredients([...ingredients, ingredient]);
-
   }
 
   const handleRemoveIngredient = (id) => {
