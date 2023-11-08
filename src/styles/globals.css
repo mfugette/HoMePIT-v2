@@ -24,14 +24,35 @@ body {
   border: 5%, solid, black;
 }
 
-#signIn {
+#homeSignIn {
   width: 200%;
   padding: 20%;
   background-color: blanchedalmond;
   text-align: center;
   vertical-align: middle;
   border: 5%, solid, black;
+}
 
+#homeSignInButtonUl {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: burlywood;
+  text-align: center;
+  border: 5%, solid, black;
+}
+
+#homeSignInButton a{
+  display: block;
+  color: black;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+#homeSignInButton a:hover {
+  background-color: rgb(187, 154, 112);
 }
 
 a {
@@ -44,7 +65,7 @@ a {
 }
 
 /*Navbar CSS*/
-ul {
+#navUl {
   list-style-type: none;
   margin: 0;
   padding: 0;
@@ -58,16 +79,27 @@ ul {
   width: 500px;
 }
 
-li {
+.navLi {
   float: left;
 }
+
+
+.navLi a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  
+}
+
 
 .signin {
   float: right;
   background-color: red;
 }
 
-li a {
+.signin a {
   display: block;
   color: white;
   text-align: center;
@@ -77,7 +109,7 @@ li a {
 }
 
 /* Changes to black on hover */
-li a:hover {
+.navLi a:hover {
   background-color: #111;
 }
 
