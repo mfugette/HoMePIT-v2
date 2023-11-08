@@ -2,6 +2,8 @@ import React from "react";
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 
+import supabase from "@/config/supabaseClient";
+
 //import { useState } from "react"
 
 //const [ingredientQuantity, setIngredientQuantity] = React.useState(0);
@@ -21,7 +23,7 @@ export default function IngredientAddForm({ onAddIngredient }) {
     const [location, setLocation] = React.useState('');
     const [userTags, setUserTags] = React.useState('');
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         onAddIngredient(
             name,
@@ -37,11 +39,35 @@ export default function IngredientAddForm({ onAddIngredient }) {
             cost,
             location,
             userTags
-            );
+        );
+        try {
+            const { data } = await supabase
+                .from('Ingredients')
+                .insert([
+                    { ing_name: name },
+                    // { ing_qnt: parseFloat(quantity) },
+                    // { ing_threshold_qnt: threshold },
+                    // { ing_serv_qnt: servingSize },
+                    // { ing_serv_cal: calories },
+                    // { ing_serv_prot: protein },
+                    // { ing_serv_fat: fat },
+                    // { ing_serv_carb: carbohydrate },
+                    // { ing_purchase_serv_cnt: purchasedServings },
+                    // { ing_purchase_cost: cost },
+                    // { ing_name: name },
+                    // { ing_name: name },
+                ]);
+
+
+            return data;
+
+        } catch (error) {
+            console.error(error);
+        }
 
         setName('');
-        setQuantity(0);
-        setThreshold(0);
+        setQuantity('');
+        setThreshold('');
         setExpirationDate('');
         setServingSize('');
         setCalories('');
@@ -53,8 +79,24 @@ export default function IngredientAddForm({ onAddIngredient }) {
         setLocation('');
         setUserTags('');
 
-        console.log(name)
+
     }
+    // const addTo = async () => {
+    //     try {
+    //         const { data } = await supabase
+    //             .from('Ingredients')
+    //             .insert([
+    //                 { ing_id: '666', ing_name: 'Test' },
+    //             ]);
+
+
+    //         return data;
+
+    //     } catch (error) {
+    //         console.error(error);
+    //     }
+    // };
+
 
     return (
 
@@ -63,8 +105,11 @@ export default function IngredientAddForm({ onAddIngredient }) {
             <form onSubmit={handleSubmit} className="add">
                 <h3>Input Food</h3>
                 <input type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
-                <input type="text" placeholder="Quantity" value={quantity} onChange={(e) => setQuantity(parseInt(e.target.value))} />
-                <input type="text" placeholder="Threshold" value={threshold} onChange={(e) => setThreshold(parseInt(e.target.value))} />
+                {/* <input type="text" placeholder="Quantity" value={quantity} onChange={(e) => setQuantity(parseInt(e.target.value))} />
+                <input type="text" placeholder="Threshold" value={threshold} onChange={(e) => setThreshold(parseInt(e.target.value))} /> */}
+                <input type="text" placeholder="Quantity" value={quantity} onChange={(e) => setQuantity(e.target.value)} />
+                <input type="text" placeholder="Threshold" value={threshold} onChange={(e) => setThreshold(e.target.value)} />
+
                 <input type="text" placeholder="Expiration Date" value={expirationDate} onChange={(e) => setExpirationDate(e.target.value)} />
                 <input type="text" placeholder="Serving Size" value={servingSize} onChange={(e) => setServingSize(e.target.value)} />
                 <input type="text" placeholder="Calories" value={calories} onChange={(e) => setCalories(e.target.value)} />

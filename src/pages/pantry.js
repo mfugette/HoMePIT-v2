@@ -1,6 +1,7 @@
 import React from 'react';
 import IngredientAddForm from '../components/pantryComponents/ingredientAddForm.js';
 import IngredientListItem from '../components/pantryComponents/ingredientListItem.js';
+import supabase from '@/config/supabaseClient.js';
 
 export default function Pantry() {
 
@@ -41,6 +42,9 @@ export default function Pantry() {
       userTags
     };
     setIngredients([...ingredients, ingredient]);
+    // supabase.from("Ingredients").insert([ingredient]).then(() => {
+    //   // Ingredient saved successfully
+    // });
   }
 
   const handleRemoveIngredient = (id) => {

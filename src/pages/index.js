@@ -2,6 +2,7 @@ import Head from 'next/head'
 import { Inter } from 'next/font/google'
 import supabase from '@/config/supabaseClient';
 //import { loginWithGoogle } from '@/config/supabaseClient';
+//import { handleAuth } from '@/components/userAuth';
 
 import { useSession } from "next-auth/react"
 
@@ -10,10 +11,12 @@ const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
 
-  
-// supabase.auth.signInWithOAuth({
-//       provider: 'google',
-//     })
+  // const handleAuth = () => {
+  //   supabase.auth.signInWithOAuth({
+  //     provider: 'google',
+  //   })
+  // }
+
   return (
     <>
       <Head>
@@ -31,8 +34,7 @@ export default function Home() {
 
         <b>
           <form>
-            {/* { handleSignInWithGoogle() } */}
-            {/* <button onClick={ () => }>Sign In</button> */}
+            {/* <button onClick={() => handleAuth}>Sign In</button> */}
           </form>
         </b>
 
