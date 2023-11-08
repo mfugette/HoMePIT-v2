@@ -12,7 +12,7 @@ const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
 
-
+/*
   supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
@@ -24,6 +24,7 @@ export default function Home() {
         }
 
       })
+      */
   return (
     <>
       <Head>
