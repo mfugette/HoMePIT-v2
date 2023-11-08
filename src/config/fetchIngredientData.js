@@ -1,14 +1,9 @@
-import supabase from "./supabaseClient";
+import supabase from "./supabaseClient"
 
 
-let { data: Ingredients, error } = await supabase
-    .from('Ingredients')
-    .select('ing_id')
+export default async function foofData() {
 
-export default function ing() {
-    return (
-        <>
-        
-        </>
-    )
+    const { error } = await supabase
+      .from('Ingredients')
+      .select("")
 }

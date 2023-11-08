@@ -1,6 +1,7 @@
 import React from 'react';
 import IngredientAddForm from '../components/pantryComponents/ingredientAddForm.js';
 import IngredientListItem from '../components/pantryComponents/ingredientListItem.js';
+import supabase from '@/config/supabaseClient.js';
 
 export default function Pantry() {
 
@@ -41,6 +42,7 @@ export default function Pantry() {
       userTags
     };
     setIngredients([...ingredients, ingredient]);
+
   }
 
   const handleRemoveIngredient = (id) => {
@@ -68,8 +70,11 @@ export default function Pantry() {
     }))
   }
 
+
+
+
+
   // Input boxes for adding an ingredient & list of ingredients in Pantry. Needs to be worked on.
-  console.log(ingredients);
   return (
     <div>
       <IngredientAddForm onAddIngredient={handleAddIngredient} />

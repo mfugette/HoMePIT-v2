@@ -10,10 +10,10 @@ const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
 
-  
-// supabase.auth.signInWithOAuth({
-//       provider: 'google',
-//     })
+
+  // supabase.auth.signInWithOAuth({
+  //       provider: 'google',
+  //     })
   return (
     <>
       <Head>
@@ -22,7 +22,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
 
       </Head>
-      <body id = "intro">
+      <body id="intro">
         <div>
 
           <main>
