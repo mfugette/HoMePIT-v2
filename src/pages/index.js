@@ -11,10 +11,18 @@ const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
 
-  
-// supabase.auth.signInWithOAuth({
-//       provider: 'google',
-//     })
+
+  supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          queryParams: {
+            access_type: 'offline',
+            prompt: 'consent',
+            
+          }
+        }
+
+      })
   return (
     <>
       <Head>
@@ -23,9 +31,9 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
 
       </Head>
-      <body id="intro">
+      <div id="intro">
         <p>Welcome to HoMePIT!</p>
-      </body>
+      </div>
     </>
   )
 }
