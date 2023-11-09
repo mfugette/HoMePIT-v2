@@ -8,7 +8,15 @@ export default function Test() {
             const { data } = await supabase
                 .from('Ingredients')
                 .insert([
-                    { ing_id: '666', ing_name: 'Test' },
+                    { ing_qnt: '453', ing_name: 'frsd' },
+                    { ing_qnt: '45', ing_name: 'sfer' },
+                    { ing_qnt: '534', ing_name: 'sger' },
+                    { ing_qnt: '342', ing_name: 'eas' },
+                    { ing_qnt: '87', ing_name: 'hert' },
+                    { ing_qnt: '5', ing_name: 'sgrd' },
+                    { ing_qnt: '54', ing_name: 'hdrt' },
+                    { ing_qnt: '4', ing_name: 'afr' },
+                    { ing_qnt: '76', ing_name: 'jyfgt' },
                 ]);
 
 
