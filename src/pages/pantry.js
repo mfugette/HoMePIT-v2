@@ -114,6 +114,8 @@ export default function Pantry() {
   // );
   const [ingredients, setIngredients] = React.useState([]);
 
+
+
   useEffect(() => {
     const fetchData = async () => {
       try {
