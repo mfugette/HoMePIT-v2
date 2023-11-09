@@ -128,9 +128,7 @@ export default function IngredientAddForm({ onAddIngredient }) {
 
             </Popup>
 
-            <Popup trigger={<button>Edit</button>} position={"bottom right"}>
-
-            </Popup>
+            
         </div>
 
 
