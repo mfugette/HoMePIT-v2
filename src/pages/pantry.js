@@ -3,7 +3,9 @@ import { useEffect } from 'react';
 import IngredientAddForm from '../components/pantryComponents/ingredientAddForm.js';
 import IngredientListItem from '../components/pantryComponents/ingredientListItem.js';
 import supabase from '@/config/supabaseClient.js';
-//import { data } from 'autoprefixer';
+import Popup from 'reactjs-popup';
+import 'reactjs-popup/dist/index.css';
+import IngredientEditForm from '@/components/pantryComponents/ingredientEditForm.js';
 
 export default function Pantry() {
 
@@ -46,30 +48,30 @@ export default function Pantry() {
     setIngredients([...ingredients, ingredient]);
   }
 
-  const handleRemoveIngredient = (id) => {
-    setIngredients(ingredients.filter(ingredient => ingredient.id !== id));
-  }
+  // const handleRemoveIngredient = (id) => {
+  //   setIngredients(ingredients.filter(ingredient => ingredient.id !== id));
+  // }
 
-  const increaseIngredientQty = (id) => {
-    setIngredients(ingredients.map(ingredient => {
-      if (ingredient.id === id) {
-        return { ...ingredient, quantity: ingredient.quantity + 1 }
-      }
-      else {
-        return ingredient;
-      }
-    }))
-  }
-  const decreaseIngredientQty = (id) => {
-    setIngredients(ingredients.map(ingredient => {
-      if (ingredient.id === id) {
-        return { ...ingredient, quantity: ingredient.quantity - 1 }
-      }
-      else {
-        return ingredient;
-      }
-    }))
-  }
+  // const increaseIngredientQty = (id) => {
+  //   setIngredients(ingredients.map(ingredient => {
+  //     if (ingredient.id === id) {
+  //       return { ...ingredient, quantity: ingredient.quantity + 1 }
+  //     }
+  //     else {
+  //       return ingredient;
+  //     }
+  //   }))
+  // }
+  // const decreaseIngredientQty = (id) => {
+  //   setIngredients(ingredients.map(ingredient => {
+  //     if (ingredient.id === id) {
+  //       return { ...ingredient, quantity: ingredient.quantity - 1 }
+  //     }
+  //     else {
+  //       return ingredient;
+  //     }
+  //   }))
+  // }
 
   // const getAllIngredients = async () => {
   //   try {
@@ -170,9 +172,13 @@ export default function Pantry() {
               <tr key={ingredient.ing_id}>
                 <td>{ingredient.ing_name}</td>
                 <td>{ingredient.ing_qnt}</td>
-                <td><button>Edit</button>
+
+                <td>
+                  {/* <button>Edit</button> */}
+                  <IngredientEditForm/>
                   <button onClick={() => deleteData(ingredient.ing_id)}>Remove</button>
                 </td>
+                
               </tr>
             ))}
           </tbody>
