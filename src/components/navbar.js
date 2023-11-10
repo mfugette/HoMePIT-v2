@@ -2,7 +2,7 @@ import Link from 'next/link';
 export default function Navbar() {
   return (
     <nav>
-      <ul id = "navUl">
+      <ul id="navUl">
         <li className="navLi">
           <Link href="/">Home</Link>
         </li>
@@ -24,11 +24,11 @@ export default function Navbar() {
         <li className="navLi">
           <Link href="/testIngredients">Test</Link>
         </li>
-        <li className='signin'>
+        {/* <li className='signin'>
           <Link href="/signIn">Sign In</Link>
-        </li>    
+        </li> */}
       </ul>
     </nav>
-    
+
   );
 };
