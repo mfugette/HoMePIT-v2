@@ -161,7 +161,7 @@ export default function RecipeBook() {
                                         </form>
 
                                     </Popup>
-                                    <button onClick={() => deleteIngredient(ingredient.ing_id)}>Remove</button>
+                                    <button onClick={() => deleteRecipe(recipe.rec_id)}>Remove</button>
                                 </td>
 
                             </tr>
