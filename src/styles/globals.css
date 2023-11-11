@@ -82,7 +82,7 @@ a {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: #333;
+  background-color: brown;
 }
 
 .foodList {
@@ -95,7 +95,6 @@ a {
   float: left;
 }
 
-
 .navLi a {
   display: block;
   color: white;
@@ -104,7 +103,6 @@ a {
   text-decoration: none;
   
 }
-
 
 .signin {
   float: right;
@@ -122,7 +120,7 @@ a {
 
 /* Changes to black on hover */
 .navLi a:hover {
-  background-color: #111;
+  background-color: lightcoral;
 }
 
 .add {

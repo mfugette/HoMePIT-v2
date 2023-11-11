@@ -30,9 +30,9 @@ export default function Test() {
 
     return (
         <>
-        <div>
-            <button onClick={addTo}>Test</button>
-        </div>
+            <div>
+                <button onClick={addTo}>Test</button>
+            </div>
         </>
     )
 

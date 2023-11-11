@@ -1,125 +1,78 @@
 import React from 'react';
 import { useEffect } from 'react';
-import IngredientAddForm from '../components/pantryComponents/ingredientAddForm.js';
-import IngredientListItem from '../components/pantryComponents/ingredientListItem.js';
 import supabase from '@/config/supabaseClient.js';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
-import IngredientEditForm from '@/components/pantryComponents/ingredientEditForm.js';
+
+import IngredientForm from '@/components/pantryComponents/ingredientForm.js';
 
 export default function Pantry() {
 
-  // // React.useState() to define and set states of variables
-  // const [ingredients, setIngredients] = React.useState([]);
-
-  //Method for Adding Ingredients
-  const handleAddIngredient = (
-    name,
-    quantity,
-    threshold,
-    expirationDate,
-    servingSize,
-    calories,
-    protein,
-    fat,
-    carbohydrate,
-    purchasedServings,
-    cost,
-    location,
-    userTags
-  ) => {
-
-    const ingredient = {
-      //id: self.crypto.randomUUID(),
-      name,
-      quantity,
-      threshold,
-      expirationDate,
-      servingSize,
-      calories,
-      protein,
-      fat,
-      carbohydrate,
-      purchasedServings,
-      cost,
-      location,
-      userTags
-    };
-    setIngredients([...ingredients, ingredient]);
-  }
-
-  // const handleRemoveIngredient = (id) => {
-  //   setIngredients(ingredients.filter(ingredient => ingredient.id !== id));
-  // }
-
-  // const increaseIngredientQty = (id) => {
-  //   setIngredients(ingredients.map(ingredient => {
-  //     if (ingredient.id === id) {
-  //       return { ...ingredient, quantity: ingredient.quantity + 1 }
-  //     }
-  //     else {
-  //       return ingredient;
-  //     }
-  //   }))
-  // }
-  // const decreaseIngredientQty = (id) => {
-  //   setIngredients(ingredients.map(ingredient => {
-  //     if (ingredient.id === id) {
-  //       return { ...ingredient, quantity: ingredient.quantity - 1 }
-  //     }
-  //     else {
-  //       return ingredient;
-  //     }
-  //   }))
-  // }
-
-  // const getAllIngredients = async () => {
-  //   try {
-  //     const { data } = await supabase
-  //       .from('Ingredients')
-  //       .select('ing_id, ing_qnt');
-  //     return data;
-
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-  // console.log(getAllIngredients())
-
-
-  // // Input boxes for adding an ingredient & list of ingredients in Pantry. Needs to be worked on.
-  // return (
-  //   <div>
-  //     <IngredientAddForm onAddIngredient={handleAddIngredient} />
-
-  //     <div>
-  //       <h3>Your Ingredients:</h3>
-  //       <p>{{getAllIngredients}}</p>
-  //       <ul className="foodList">
-  //         {ingredients.map(ingredient => (
-  //           <IngredientListItem
-  //             key={ingredient.id}
-  //             id={ingredient.id}
-  //             name={ingredient.name}
-  //             quantity={ingredient.quantity}
-  //             threshold={ingredient.threshold}
-
-  //             onIncrease={increaseIngredientQty}
-  //             onDecrease={decreaseIngredientQty}
-  //             onDeleteIngredient={handleRemoveIngredient}
-  //           />
-  //         ))}
-  //       </ul>
-  //     </div>
-  //   </div>
-
-  // );
   const [ingredients, setIngredients] = React.useState([]);
+  const [name, setName] = React.useState('');
+  const [quantity, setQuantity] = React.useState();
+  const [threshold, setThreshold] = React.useState();
+  const [servingSize, setServingSize] = React.useState();
+  const [calories, setCalories] = React.useState();
+  const [protein, setProtein] = React.useState();
+  const [fat, setFat] = React.useState();
+  const [carbohydrate, setCarbohydrate] = React.useState();
+  const [purchasedServings, setPurchasedServings] = React.useState();
+  const [cost, setCost] = React.useState();
 
+  const createIngredient = async (e) => {
+    e.preventDefault();
+    try {
+      const { data } = await supabase
+        .from('Ingredients')
+        .insert([
+          {
+            ing_name: name,
+            ing_qnt: quantity,
+            ing_threshold_qnt: threshold,
+            ing_serv_qnt: servingSize,
+            ing_serv_cal: calories,
+            ing_serv_prot: protein,
+            ing_serv_fat: fat,
+            ing_serv_carb: carbohydrate,
+            ing_purchase_serv_cnt: purchasedServings,
+            ing_purchase_cost: cost,
+          }
+        ]);
+      return data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
+  const updateIngredient = async (e) => {
+    e.preventDefault();
+    try {
+      const { data } = await supabase
+        .from('Ingredients')
+        .update([
+          {
+            ing_name: name,
+            ing_qnt: quantity,
+            ing_threshold_qnt: threshold,
+            ing_serv_qnt: servingSize,
+            ing_serv_cal: calories,
+            ing_serv_prot: protein,
+            ing_serv_fat: fat,
+            ing_serv_carb: carbohydrate,
+            ing_purchase_serv_cnt: purchasedServings,
+            ing_purchase_cost: cost,
+          }
+        ])
+        .select();
+      return data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
+    const readIngredient = async () => {
       try {
         const response = await supabase
           .from('Ingredients')
@@ -131,10 +84,10 @@ export default function Pantry() {
         console.error(error);
       }
     };
-    fetchData();
+    readIngredient();
   }, []);
 
-  const deleteData = async (id) => {
+  const deleteIngredient = async (id) => {
     try {
       const response = await supabase
         .from('Ingredients')
@@ -147,15 +100,31 @@ export default function Pantry() {
       console.error(error);
     }
   }
-  // useEffect(() => {
-  // }, []);
 
   return (
     <>
 
       <div>
         <div>
-          <IngredientAddForm onAddIngredient={handleAddIngredient} />
+          <Popup trigger={<button>Add New Ingredient</button>} position={"bottom right"}>
+
+            <form onSubmit={createIngredient} className="add">
+              <h3>Input Food</h3>
+              <input type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
+              <input type="text" placeholder="Quantity" value={quantity} onChange={(e) => setQuantity(e.target.value)} />
+              <input type="text" placeholder="Threshold" value={threshold} onChange={(e) => setThreshold(e.target.value)} />
+              <input type="text" placeholder="Serving Size" value={servingSize} onChange={(e) => setServingSize(e.target.value)} />
+              <input type="text" placeholder="Calories" value={calories} onChange={(e) => setCalories(e.target.value)} />
+              <input type="text" placeholder="Protein" value={protein} onChange={(e) => setProtein(e.target.value)} />
+              <input type="text" placeholder="Fat" value={fat} onChange={(e) => setFat(e.target.value)} />
+              <input type="text" placeholder="Carbohydrate" value={carbohydrate} onChange={(e) => setCarbohydrate(e.target.value)} />
+              <input type="text" placeholder="Purchased Servings" value={purchasedServings} onChange={(e) => setPurchasedServings(e.target.value)} />
+              <input type="text" placeholder="Cost" value={cost} onChange={(e) => setCost(e.target.value)} />
+
+              <button type="submit">Add Ingredient</button>
+            </form>
+
+          </Popup>
           <h3>Your Ingredients:</h3>
         </div>
 
@@ -175,10 +144,28 @@ export default function Pantry() {
 
                 <td>
                   {/* <button>Edit</button> */}
-                  <IngredientEditForm/>
-                  <button onClick={() => deleteData(ingredient.ing_id)}>Remove</button>
+                  <Popup trigger={<button>Edit</button>} position={"bottom right"}>
+
+                    <form onSubmit={updateIngredient} className="edit">
+                      <h3>Edit Food</h3>
+                      <input type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
+                      <input type="text" placeholder="Quantity" value={quantity} onChange={(e) => setQuantity(e.target.value)} />
+                      <input type="text" placeholder="Threshold" value={threshold} onChange={(e) => setThreshold(e.target.value)} />
+                      <input type="text" placeholder="Serving Size" value={servingSize} onChange={(e) => setServingSize(e.target.value)} />
+                      <input type="text" placeholder="Calories" value={calories} onChange={(e) => setCalories(e.target.value)} />
+                      <input type="text" placeholder="Protein" value={protein} onChange={(e) => setProtein(e.target.value)} />
+                      <input type="text" placeholder="Fat" value={fat} onChange={(e) => setFat(e.target.value)} />
+                      <input type="text" placeholder="Carbohydrate" value={carbohydrate} onChange={(e) => setCarbohydrate(e.target.value)} />
+                      <input type="text" placeholder="Purchased Servings" value={purchasedServings} onChange={(e) => setPurchasedServings(e.target.value)} />
+                      <input type="text" placeholder="Cost" value={cost} onChange={(e) => setCost(e.target.value)} />
+
+                      <button type="submit">Edit Ingredient</button>
+                    </form>
+
+                  </Popup>
+                  <button onClick={() => deleteIngredient(ingredient.ing_id)}>Remove</button>
                 </td>
-                
+
               </tr>
             ))}
           </tbody>
