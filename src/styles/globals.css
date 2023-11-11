@@ -11,6 +11,7 @@ body {
 
 /*homepage*/
 #intro {
+  margin-top: 10%;
   text-align: center;
   vertical-align: middle;
 }
@@ -24,7 +25,18 @@ body {
   border: 5%, solid, black;
 }
 
-#homeSignIn {
+#homeH6 {
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
+#homeH2 {
+  padding-top: 0;
+  margin-top: 0;
+}
+
+#homeSignInForm {
+  margin-top: 90%;
   width: 200%;
   padding: 20%;
   background-color: blanchedalmond;

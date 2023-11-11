@@ -34,8 +34,11 @@ export default function Home() {
 
       </Head>
         <div id="intro">
-          <p>Welcome to HoMePIT!</p>
-          <form id = "homeSignIn">
+          <form id = "homeLogo">
+            <h6 id = "homeH6"> Welcome to,</h6>
+            <h2 id = "homeH2"> HoMePIT </h2>
+          </form>
+          <form id = "homeSignInForm">
             <h4>Sign in with google</h4>
             <ul id = "homeSignInButtonUl">
               <li id="homeSignInButton">
