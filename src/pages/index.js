@@ -35,7 +35,7 @@ export default function Home() {
       </Head>
         <div id="intro">
           <form id = "homeLogo">
-            <h6 id = "homeH6"> Welcome to,</h6>
+            <h6 id = "homeH6"> Welcome to</h6>
             <h2 id = "homeH2"> HoMePIT </h2>
           </form>
           <form id = "homeSignInForm">
