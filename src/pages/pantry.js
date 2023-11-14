@@ -3,8 +3,11 @@ import { useEffect } from 'react';
 import supabase from '@/config/supabaseClient.js';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
+import SignIn from './signIn';
 
 import IngredientForm from '@/components/pantryComponents/ingredientForm.js';
+import { data } from 'autoprefixer';
+import { Result } from 'postcss';
 
 export default function Pantry() {
 
@@ -19,6 +22,13 @@ export default function Pantry() {
   const [carbohydrate, setCarbohydrate] = React.useState();
   const [purchasedServings, setPurchasedServings] = React.useState();
   const [cost, setCost] = React.useState();
+  const [uid, setUid] = React.useState();
+
+  supabase.auth.getUser().then(value => {
+    try {
+      setUid(value.data.user.id)
+    } catch { }
+  })
 
   const createIngredient = async (e) => {
     e.preventDefault();
@@ -37,6 +47,7 @@ export default function Pantry() {
             ing_serv_carb: carbohydrate,
             ing_purchase_serv_cnt: purchasedServings,
             ing_purchase_cost: cost,
+            user_id: uid
           }
         ]);
       return data;
@@ -62,6 +73,7 @@ export default function Pantry() {
             ing_serv_carb: carbohydrate,
             ing_purchase_serv_cnt: purchasedServings,
             ing_purchase_cost: cost,
+            user_id: uid
           }
         ])
         .select();
@@ -80,6 +92,7 @@ export default function Pantry() {
         // .range(0, 4)
         const data = response.data;
         setIngredients(data);
+        console.log(await supabase.auth.getUser())
       } catch (error) {
         console.error(error);
       }
