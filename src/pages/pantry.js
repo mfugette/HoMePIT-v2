@@ -3,7 +3,6 @@ import { useEffect } from 'react';
 import supabase from '@/config/supabaseClient.js';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
-import SignIn from './signIn';
 
 import IngredientForm from '@/components/pantryComponents/ingredientForm.js';
 import { data } from 'autoprefixer';

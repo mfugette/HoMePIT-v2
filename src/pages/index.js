@@ -29,9 +29,9 @@ export default function Home() {
             <h4>Sign in with google</h4>
             <ul id = "homeSignInButtonUl">
               <li id="homeSignInButton">
-                <Link href={"/signIn"}>
+                {/* <Link href={"/signIn"}>
                 Sign In
-                </Link>
+                </Link> */}
               </li>
             </ul>
           </form>
