@@ -21,12 +21,6 @@ export default function Navbar() {
         <li className="navLi">
           <Link href="/settings">Settings</Link>
         </li>
-        <li className="navLi">
-          <Link href="/testIngredients">Test</Link>
-        </li>
-        {/* <li className='signin'>
-          <Link href="/signIn">Sign In</Link>
-        </li> */}
       </ul>
     </nav>
 
