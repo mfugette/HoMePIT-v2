@@ -11,20 +11,7 @@ import supabase from '@/config/supabaseClient';
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
-
-/*
-  supabase.auth.signInWithOAuth({
-        provider: 'google',
-        options: {
-          queryParams: {
-            access_type: 'offline',
-            prompt: 'consent',
-            
-          }
-        }
-
-      })
-      */
+  
   return (
     <>
       <Head>
