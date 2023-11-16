@@ -118,7 +118,7 @@ export default function Pantry() {
 
       <div>
         <div>
-          <Popup trigger={<button>Add New Ingredient</button>} position={"bottom right"}>
+          <Popup trigger={<button className=''>Add New Ingredient</button>} position={"bottom right"}>
 
             <form onSubmit={createIngredient} className="add">
               <h3>Input Food</h3>

@@ -1,3 +1,5 @@
+@import 'bootstrap/dist/css/bootstrap.css';
+
 /* Note: Some CSS elements should be moved to their own files. */
 
 html,
@@ -17,7 +19,7 @@ body {
 }
 
 #homeLogo {
-  width: 175%;
+  max-width: 100%;
   padding: 5%;
   background-color: blanchedalmond;
   text-align: center;
@@ -37,7 +39,7 @@ body {
 
 #homeSignInForm {
   margin-top: 90%;
-  width: 200%;
+  max-width: 100%;
   padding: 20%;
   background-color: blanchedalmond;
   text-align: center;
@@ -127,6 +129,3 @@ a {
   width: 240px;
   display: inline-block;
 }
-
-
-
