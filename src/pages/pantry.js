@@ -4,10 +4,6 @@ import supabase from '@/config/supabaseClient.js';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 
-import IngredientForm from '@/components/pantryComponents/ingredientForm.js';
-import { data } from 'autoprefixer';
-import { Result } from 'postcss';
-
 export default function Pantry() {
 
   const [ingredients, setIngredients] = React.useState([]);

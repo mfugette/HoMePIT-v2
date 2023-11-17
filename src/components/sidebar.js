@@ -10,6 +10,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Icon } from '@mui/material';
+import AccountCircle from '@mui/icons-material/AccountCircle';
 
 export default function Sidebar() {
     const [state, setState] = React.useState({
@@ -58,6 +59,19 @@ export default function Sidebar() {
             </List>
 
             <Divider />
+            <List>
+            <ListItem disablePadding>
+                    <ListItemButton href="/profile">
+                        <ListItemText primary={"Profile"} />
+                    </ListItemButton>
+                </ListItem>
+                <ListItem disablePadding>
+                    <ListItemButton href="/signin">
+                        <ListItemText primary={"Sign Out"} />
+                    </ListItemButton>
+                </ListItem>
+
+            </List>
         </Box>
     );
 

@@ -9,6 +9,7 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import Sidebar from './sidebar';
+import { ListItemButton } from '@mui/material';
 
 export default function MenuAppBar() {
   const [auth, setAuth] = React.useState(true);
@@ -66,7 +67,10 @@ export default function MenuAppBar() {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
+                <MenuItem onClick={handleClose}>
+                  <ListItemButton href='/profile'>Profile</ListItemButton>
+                  <ListItemButton href='/signIn'>Sign In</ListItemButton>
+                  </MenuItem>
               </Menu>
             </div>
           )}
