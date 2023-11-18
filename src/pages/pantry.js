@@ -1,6 +1,7 @@
 import React from 'react';
 import { useEffect } from 'react';
-import supabase from '@/config/supabaseClient.js';
+//import supabase from '@/config/supabaseClient.js';
+import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 
@@ -18,6 +19,8 @@ export default function Pantry() {
   const [purchasedServings, setPurchasedServings] = React.useState();
   const [cost, setCost] = React.useState();
   const [uid, setUid] = React.useState();
+
+  const supabase = useSupabaseClient();
 
   supabase.auth.getUser().then(value => {
     try {

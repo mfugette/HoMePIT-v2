@@ -1,5 +1,7 @@
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 
+
+
 export default function Home() {
   const supabase = useSupabaseClient();
   const session = useSession();
@@ -20,7 +22,7 @@ export default function Home() {
           justifyContent: "center",
         }}
       >
-        <button onClick={handleLogout}>Logout!</button>
+        <button onClick={handleLogout}>Logout</button>
       </div>
     </>
   );
@@ -32,6 +34,7 @@ function LoginPage() {
   async function loginWithGoogle() {
     await supabase.auth.signInWithOAuth({
       provider: "google",
+      //redirectTo: "https://homepit-6d86b.web.app"
     });
   }
   return (
@@ -42,7 +45,7 @@ function LoginPage() {
           justifyContent: "center",
         }}
       >
-        <button onClick={loginWithGoogle}>Google Login</button>
+        <button onClick={loginWithGoogle}>Login</button>
       </div>
     </>
   );
