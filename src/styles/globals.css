@@ -4,7 +4,7 @@
 
 html,
 body {
-  background-color: burlywood;
+  /* background-color: burlywood; */
   padding: 0;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
@@ -18,14 +18,14 @@ body {
   vertical-align: middle;
 }
 
-#homeLogo {
+/* #homeLogo {
   max-width: 100%;
   padding: 5%;
   background-color: blanchedalmond;
   text-align: center;
   vertical-align: middle;
   border: 5%, solid, black;
-}
+} */
 
 #homeH6 {
   padding-bottom: 0;
@@ -37,7 +37,7 @@ body {
   margin-top: 0;
 }
 
-#homeSignInForm {
+/* #homeSignInForm {
   margin-top: 90%;
   max-width: 100%;
   padding: 20%;
@@ -45,7 +45,7 @@ body {
   text-align: center;
   vertical-align: middle;
   border: 5%, solid, black;
-}
+} */
 
 #homeSignInButtonUl {
   list-style-type: none;

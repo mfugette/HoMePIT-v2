@@ -1,19 +1,24 @@
-import 'bootstrap/dist/css/bootstrap.css'
-import '../styles/globals.css'
-import Navbar from '../components/navbar';
-import Sidebar from '@/components/sidebar';
-import AppBar from '@mui/material/AppBar';
+ import 'bootstrap/dist/css/bootstrap.css'
+ import '../styles/globals.css'
+ 
+import { createPagesBrowserClient } from "@supabase/auth-helpers-nextjs";
+import { SessionContextProvider } from "@supabase/auth-helpers-react";
+import { useState } from "react";
+import MenuAppBar from "@/components/navbar";
 
 export default function App({ Component, pageProps }) {
+  const [supabaseClient] = useState(() => createPagesBrowserClient());
+
   return (
-    <>
-      <Navbar />
-      {/* <Sidebar /> */}
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <Component {...pageProps} />
+    <SessionContextProvider
+      supabaseClient={supabaseClient}
+      initialSession={pageProps.initialSession}
+    >
+      <MenuAppBar/>
+      <div style={{ display: 'flex', justifyContent: 'center', maxWidth: '100%' }}>
 
+      <Component {...pageProps} />
       </div>
-    </>
+    </SessionContextProvider>
   );
-
 }
