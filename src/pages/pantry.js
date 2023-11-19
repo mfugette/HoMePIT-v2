@@ -148,7 +148,7 @@ export default function Pantry() {
             </tr>
           </thead>
           <tbody>
-            {ingredients.map((ingredient) => (
+            {ingredients?.map((ingredient) => (
               <tr key={ingredient.ing_id}>
                 <td>{ingredient.ing_name}</td>
                 <td>{ingredient.ing_qnt}</td>
