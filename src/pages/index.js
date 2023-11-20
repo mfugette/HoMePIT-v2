@@ -16,7 +16,8 @@ export default function Home() {
 
   return (
     <>
-      <div style={{ maxWidth: "100%", padding: "5%", textAlign: "center", verticalAlign: "middle"}}>
+      <div style={{ maxWidth: "100%", padding: "5%", textAlign: "center", verticalAlign: "middle" }}>
+        <h4>Click the button below to sign out.</h4>
         <button onClick={handleLogout}>Logout</button>
       </div>
     </>
@@ -44,9 +45,9 @@ function LoginPage() {
   }
   return (
     <>
-      <div style={{ maxWidth: "100%", padding: "5%", textAlign: "center", verticalAlign: "middle"}}>
+      <div style={{ maxWidth: "100%", padding: "5%", textAlign: "center", verticalAlign: "middle" }}>
         <h4>Welcome to</h4>
-        <img src = "homepit.svg" alt="HoMePIT logo" width='125' height='auto'/>
+        <img src="homepit.svg" alt="HoMePIT logo" width='125' height='auto' />
         <p></p>
         <p>Please sign in to start cooking.</p>
         <button onClick={loginWithGoogle}>Login</button>
