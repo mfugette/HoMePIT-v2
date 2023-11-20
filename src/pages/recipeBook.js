@@ -17,6 +17,7 @@ export default function RecipeBook() {
     const [servingCarbohydrate, setServingCarbohydrate] = React.useState();
     const [servingCost, setServingCost] = React.useState();
     const [timeSinceLastEaten, setTimeSinceLastEaten] = React.useState();
+    const [uid, setUid] = React.useState();
 
     const createRecipe = async (e) => {
         e.preventDefault();

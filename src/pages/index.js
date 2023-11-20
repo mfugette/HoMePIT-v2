@@ -17,7 +17,7 @@ export default function Home() {
   return (
     <>
       <div style={{ maxWidth: "100%", padding: "5%", textAlign: "center", verticalAlign: "middle" }}>
-        <h4>Click the button below to sign out.</h4>
+        <h4>Sign out below.</h4>
         <button onClick={handleLogout}>Logout</button>
       </div>
     </>
