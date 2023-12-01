@@ -1,8 +1,16 @@
 import React from 'react';
 import { useEffect } from 'react';
-import supabase from '@/config/supabaseClient.js';
-import Popup from 'reactjs-popup';
-import 'reactjs-popup/dist/index.css';
+import { useSupabaseClient } from '@supabase/auth-helpers-react';
+import { Box, Button, Modal } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditNoteIcon from '@mui/icons-material/EditNote';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 
 export default function RecipeBook() {
 
@@ -18,6 +26,33 @@ export default function RecipeBook() {
     const [servingCost, setServingCost] = React.useState();
     const [timeSinceLastEaten, setTimeSinceLastEaten] = React.useState();
     const [uid, setUid] = React.useState();
+
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+
+    const supabase = useSupabaseClient();
+
+
+
+
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 260,
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: 24,
+        p: 4,
+    };
+
+    supabase.auth.getUser().then(value => {
+        try {
+          setUid(value.data.user.id)
+        } catch { }
+      })
 
     const createRecipe = async (e) => {
         e.preventDefault();
@@ -36,6 +71,7 @@ export default function RecipeBook() {
                         rec_serv_carb: servingCarbohydrate,
                         rec_serv_cost: servingCost,
                         rec_time_since_eaten: timeSinceLastEaten,
+                        user_id: uid
                     }
                 ]);
             return data;
@@ -61,6 +97,7 @@ export default function RecipeBook() {
                         rec_serv_carb: servingCarbohydrate,
                         rec_serv_cost: servingCost,
                         rec_time_since_eaten: timeSinceLastEaten,
+                        user_id: uid
                     }
                 ])
                 .select();
@@ -99,80 +136,68 @@ export default function RecipeBook() {
             console.error(error);
         }
     }
-
     return (
-        <>
+        <div>
+            <Button variant="contained" color="primary" onClick={handleOpen} >Add New Recipe</Button>
+            <h3>Your Recipes:</h3>
+            <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box sx={style}>
+                    <form onSubmit={createRecipe} className="add">
+                        <h3>Input Recipe Data</h3>
+                        <input type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
+                        <input type="text" placeholder="Serving Count" value={servingCount} onChange={(e) => setServingCount(e.target.value)} />
+                        <input type="text" placeholder="Ind Cook Time" value={indCookTime} onChange={(e) => setIndCookTime(e.target.value)} />
+                        <input type="text" placeholder="Total Cook Time" value={totalCookTime} onChange={(e) => setTotalCookTime(e.target.value)} />
+                        <input type="text" placeholder="Total Calories" value={servingCalories} onChange={(e) => setServingCalories(e.target.value)} />
+                        <input type="text" placeholder="Total Protein" value={servingProtein} onChange={(e) => setServingProtein(e.target.value)} />
+                        <input type="text" placeholder="Total Fat" value={servingFat} onChange={(e) => setServingFat(e.target.value)} />
+                        <input type="text" placeholder="Total Carbohydrate" value={servingCarbohydrate} onChange={(e) => setServingCarbohydrate(e.target.value)} />
+                        <input type="text" placeholder="Serving Cost" value={servingCost} onChange={(e) => setServingCost(e.target.value)} />
+                        <input type="text" placeholder="Time Since Last Eaten" value={timeSinceLastEaten} onChange={(e) => setTimeSinceLastEaten(e.target.value)} />
 
+                        <button type="submit">Add Recipe</button>
+                    </form>
+                </Box>
+            </Modal>
             <div>
-                <div>
-                    <Popup trigger={<button>Add New Recipe</button>} position={"bottom right"}>
+                <TableContainer component={Paper}>
+                    <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Recipe</TableCell>
+                                <TableCell align="right">Servings</TableCell>
+                                <TableCell>Units</TableCell>
+                                <TableCell align="right">Edit</TableCell>
+                                <TableCell align="right">Delete</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {recipes.map((recipe) => (
+                                <TableRow
+                                    key={recipe.rec_id}
+                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                >
+                                    <TableCell component="th" scope="row">
+                                        {recipe.rec_name}
+                                    </TableCell>
+                                    <TableCell align="right">{recipe.ing_qnt}</TableCell>
+                                    <TableCell align="right">{recipe.rec_serv_count}</TableCell>
+                                    <TableCell align="right"><Button color="info" onClick={handleOpen}><EditNoteIcon /></Button></TableCell>
+                                    <TableCell align="right"><Button color="error" onClick={() => deleteRecipe(recipe.rec_id)}><DeleteIcon /></Button></TableCell>
 
-                        <form onSubmit={createRecipe} className="add">
-                            <h3>Input Recipe Data</h3>
-                            <input type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
-                            <input type="text" placeholder="Serving Count" value={servingCount} onChange={(e) => setServingCount(e.target.value)} />
-                            <input type="text" placeholder="Ind Cook Time" value={indCookTime} onChange={(e) => setIndCookTime(e.target.value)} />
-                            <input type="text" placeholder="Total Cook Time" value={totalCookTime} onChange={(e) => setTotalCookTime(e.target.value)} />
-                            <input type="text" placeholder="Total Calories" value={servingCalories} onChange={(e) => setServingCalories(e.target.value)} />
-                            <input type="text" placeholder="Total Protein" value={servingProtein} onChange={(e) => setServingProtein(e.target.value)} />
-                            <input type="text" placeholder="Total Fat" value={servingFat} onChange={(e) => setServingFat(e.target.value)} />
-                            <input type="text" placeholder="Total Carbohydrate" value={servingCarbohydrate} onChange={(e) => setServingCarbohydrate(e.target.value)} />
-                            <input type="text" placeholder="Serving Cost" value={servingCost} onChange={(e) => setServingCost(e.target.value)} />
-                            <input type="text" placeholder="Time Since Last Eaten" value={timeSinceLastEaten} onChange={(e) => setTimeSinceLastEaten(e.target.value)} />
-
-                            <button type="submit">Add Recipe</button>
-                        </form>
-
-                    </Popup>
-                    <h3>Your Recipes:</h3>
-                </div>
-
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Servings</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {recipes.map((recipe) => (
-                            <tr key={recipe.rec_id}>
-                                <td>{recipe.rec_name}</td>
-                                <td>{recipe.rec_serv_count}</td>
-
-                                <td>
-                                    {/* <button>Edit</button> */}
-                                    <Popup trigger={<button>Edit</button>} position={"bottom right"}>
-
-                                        <form onSubmit={updateRecipe} className="add">
-                                            <h3>Edit Recipe Data</h3>
-                                            <input type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
-                                            <input type="text" placeholder="Serving Count" value={servingCount} onChange={(e) => setServingCount(e.target.value)} />
-                                            <input type="text" placeholder="Ind Cook Time" value={indCookTime} onChange={(e) => setIndCookTime(e.target.value)} />
-                                            <input type="text" placeholder="Total Cook Time" value={totalCookTime} onChange={(e) => setTotalCookTime(e.target.value)} />
-                                            <input type="text" placeholder="Total Calories" value={servingCalories} onChange={(e) => setServingCalories(e.target.value)} />
-                                            <input type="text" placeholder="Total Protein" value={servingProtein} onChange={(e) => setServingProtein(e.target.value)} />
-                                            <input type="text" placeholder="Total Fat" value={servingFat} onChange={(e) => setServingFat(e.target.value)} />
-                                            <input type="text" placeholder="Total Carbohydrate" value={servingCarbohydrate} onChange={(e) => setServingCarbohydrate(e.target.value)} />
-                                            <input type="text" placeholder="Serving Cost" value={servingCost} onChange={(e) => setServingCost(e.target.value)} />
-                                            <input type="text" placeholder="Time Since Last Eaten" value={timeSinceLastEaten} onChange={(e) => setTimeSinceLastEaten(e.target.value)} />
-
-                                            <button type="submit">Edit Recipe</button>
-                                        </form>
-
-                                    </Popup>
-                                    <button onClick={() => deleteRecipe(recipe.rec_id)}>Remove</button>
-                                </td>
-
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
             </div>
-
-
-        </>
-
-    );
+        </div>
+    )
 }
+
+

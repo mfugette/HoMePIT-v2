@@ -38,7 +38,7 @@ export default function MenuAppBar() {
 
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
 
-            <IconButton href='/'><img src = "homepit.svg" alt="HoMePIT logo" width='125' height='auto'/></IconButton>
+            <IconButton href='/'><img src = "homepit.svg" alt="HoMePIT logo" width='125' height='auto' /></IconButton>
 
           </Typography>
           {auth && (
