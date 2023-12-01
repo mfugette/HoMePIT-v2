@@ -33,9 +33,6 @@ export default function RecipeBook() {
 
     const supabase = useSupabaseClient();
 
-
-
-
     const style = {
         position: 'absolute',
         top: '50%',

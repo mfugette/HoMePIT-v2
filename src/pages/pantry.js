@@ -34,8 +34,10 @@ export default function Pantry() {
   const supabase = useSupabaseClient();
 
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleOpenAdd = () => setOpen(true);
+  const handleCloseAdd = () => setOpen(false);
+  const handleOpenEdit = () => setOpen(true);
+  const handleCloseEdit = () => setOpen(false);
 
   const style = {
     position: 'absolute',
@@ -142,11 +144,11 @@ export default function Pantry() {
   return (
     
     <div>
-      <Button variant="contained" color="primary" onClick={handleOpen} >Add New Ingredient</Button>
+      <Button variant="contained" color="primary" onClick={handleOpenAdd} >Add New Ingredient</Button>
       <h3>Your Ingredients:</h3>
       <Modal
         open={open}
-        onClose={handleClose}
+        onClose={handleCloseAdd}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -192,7 +194,7 @@ export default function Pantry() {
                   </TableCell>
                   <TableCell align="right">{ingredient.ing_qnt}</TableCell>
                   <TableCell align="right">{ingredient.ing_serv_cal}</TableCell>
-                  <TableCell align="right"><Button color="info" onClick={handleOpen}><EditNoteIcon /></Button></TableCell>
+                  <TableCell align="right"><Button color="info" onClick={handleOpenEdit}><EditNoteIcon /></Button></TableCell>
                   <TableCell align="right"><Button color="error" onClick={() => deleteIngredient(ingredient.ing_id)}><DeleteIcon /></Button></TableCell>
 
                 </TableRow>
