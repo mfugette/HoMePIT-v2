@@ -248,10 +248,13 @@ export default function RecipeBook() {
                                             <Box>
                                                 <form onSubmit={createRecipeIngredient}>
                                                     <h3>Input Ingredient Data</h3>
-                                                    <input type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
-                                                    <input type="text" placeholder="Serving Count" value={servingCount} onChange={(e) => setServingCount(e.target.value)} />
-                                                    <input type="text" placeholder="Ind Cook Time" value={indCookTime} onChange={(e) => setIndCookTime(e.target.value)} />
-                                                    <input type="text" placeholder="Total Cook Time" value={totalCookTime} onChange={(e) => setTotalCookTime(e.target.value)} />
+                                                    <input type="text" placeholder="" value={recIngName} onChange={(e) => setRecIngName(e.target.value)} />
+                                                    <input type="text" placeholder="" value={recIngQnt} onChange={(e) => setRecIngQnt(e.target.value)} />
+                                                    <input type="text" placeholder="" value={recIngTotalCal} onChange={(e) => setRecIngTotalCal(e.target.value)} />
+                                                    <input type="text" placeholder="" value={recIngTotalProt} onChange={(e) => setRecIngTotalProt(e.target.value)} />
+                                                    <input type="text" placeholder="" value={recIngTotalFat} onChange={(e) => setRecIngTotalFat(e.target.value)} />
+                                                    <input type="text" placeholder="" value={recIngTotalCarb} onChange={(e) => setRecIngTotalCarb(e.target.value)} />
+                                                    <input type="text" placeholder="" value={recIngTotalCost} onChange={(e) => setRecIngTotalCost(e.target.value)} />
                                                 </form>
                                             </Box>
                                         </Modal>
