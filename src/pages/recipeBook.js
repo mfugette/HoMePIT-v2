@@ -18,7 +18,7 @@ import Select from '@mui/material/Select';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import MenuItem from '@mui/material/MenuItem';
 
-function AddIngredientsModal() {
+function ViewIngredientsModal() {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -313,7 +313,7 @@ export default function RecipeBook() {
                                     </TableCell>
                                     <TableCell align="right">{recipe.rec_serv_count}</TableCell>
                                     <TableCell>
-                                        <AddIngredientsModal />
+                                        <ViewIngredientsModal />
                                     </TableCell>
                                     <TableCell align="right"><Button color="info" onClick={handleEditOpen}><EditNoteIcon /></Button></TableCell>
                                     <TableCell align="right"><Button color="error" onClick={() => deleteRecipe(recipe.rec_id)}><DeleteIcon /></Button></TableCell>
