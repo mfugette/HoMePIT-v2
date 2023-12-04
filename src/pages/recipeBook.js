@@ -1,5 +1,5 @@
 import React from 'react';
-// import Pantry from './pantry';
+import Pantry from './pantry';
 import { useEffect } from 'react';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { Box, Button, Modal } from '@mui/material';
@@ -12,8 +12,78 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import ViewHeadlineIcon from '@mui/icons-material/ViewHeadline';
-import { options } from '@fullcalendar/core/preact';
+import { DataGrid } from '@mui/x-data-grid';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import MenuItem from '@mui/material/MenuItem';
+
+function AddIngredientsModal() {
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+
+    const [ingredients, setIngredients] = React.useState([]);
+
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 260,
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: 24,
+        p: 4,
+    };
+
+
+    const readIngredient = async () => {
+        try {
+            const response = await supabase
+                .from('Ingredients')
+                .select('ing_id, ing_name')
+            const data = response.data;
+            setIngredients(data);
+            console.log(await supabase.auth.getUser())
+        } catch (error) {
+            console.error(error);
+        }
+    };
+    readIngredient();
+
+
+
+    return (
+        <div sx={{ overflow: "auto" }}>
+            <div sx={{ width: "100%", display: "table", tableLayout: "fixed" }}>
+                <TableContainer component={Paper}>
+                    <Table aria-label="simple table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell style={{ width: '20%' }}>Ingredients:</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {ingredients.map((ingredient) => (
+                                <TableRow
+                                    key={ingredient.ing_id}
+                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                >
+                                    <TableCell component="th" scope="row">
+                                        {ingredient.ing_name}
+                                    </TableCell>
+
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            </div>
+        </div>
+    )
+}
+
 
 export default function RecipeBook() {
 
@@ -46,6 +116,8 @@ export default function RecipeBook() {
     const handleEditClose = () => setOpen(false);
 
     const supabase = useSupabaseClient();
+
+    const ings = []
 
     const style = {
         position: 'absolute',
@@ -169,22 +241,22 @@ export default function RecipeBook() {
         }
     };
 
-    useEffect(() => {
-        const readIngredient = async () => {
-            try {
-                const response = await supabase
-                    .from('Ingredients')
-                    .select('ing_id, ing_name')
-                const data = response.data;
-                //setIngredients(data);
-                console.log(await supabase.auth.getUser())
-            } catch (error) {
-                console.error(error);
-            }
-        };
-        readIngredient();
-    }, []);
+    const readIngredient = async () => {
+        try {
+            const response = await supabase
+                .from('Ingredients')
+                .select('ing_id, ing_name')
+            const data = response.data;
+            Pantry.setIngredients(data);
+            console.log(await supabase.auth.getUser())
 
+
+
+        } catch (error) {
+            console.error(error);
+        }
+    };
+    readIngredient();
 
 
     return (
@@ -204,12 +276,20 @@ export default function RecipeBook() {
                         <input type="text" placeholder="Serving Count" value={servingCount} onChange={(e) => setServingCount(e.target.value)} />
                         <input type="text" placeholder="Ind Cook Time" value={indCookTime} onChange={(e) => setIndCookTime(e.target.value)} />
                         <input type="text" placeholder="Total Cook Time" value={totalCookTime} onChange={(e) => setTotalCookTime(e.target.value)} />
-                        <input type="text" placeholder="Total Calories" value={servingCalories} onChange={(e) => setServingCalories(e.target.value)} />
+                        <label for="cars" >Ingredients: </label>
+                        <FormControl sx={{ m: 1, width: 300, mt: 3 }}>
+                            <Select multiple value={ings}>
+                                <MenuItem disabled>
+                                    <em>Placeholder</em>
+                                </MenuItem>
+                            </Select>
+                        </FormControl>
+                        {/* <input type="text" placeholder="Total Calories" value={servingCalories} onChange={(e) => setServingCalories(e.target.value)} />
                         <input type="text" placeholder="Total Protein" value={servingProtein} onChange={(e) => setServingProtein(e.target.value)} />
                         <input type="text" placeholder="Total Fat" value={servingFat} onChange={(e) => setServingFat(e.target.value)} />
                         <input type="text" placeholder="Total Carbohydrate" value={servingCarbohydrate} onChange={(e) => setServingCarbohydrate(e.target.value)} />
                         <input type="text" placeholder="Serving Cost" value={servingCost} onChange={(e) => setServingCost(e.target.value)} />
-                        <input type="text" placeholder="Time Since Last Eaten" value={timeSinceLastEaten} onChange={(e) => setTimeSinceLastEaten(e.target.value)} />
+                        <input type="text" placeholder="Time Since Last Eaten" value={timeSinceLastEaten} onChange={(e) => setTimeSinceLastEaten(e.target.value)} /> */}
 
                         <button type="submit">Add Recipe</button>
                     </form>
@@ -238,26 +318,7 @@ export default function RecipeBook() {
                                     </TableCell>
                                     <TableCell align="right">{recipe.rec_serv_count}</TableCell>
                                     <TableCell>
-                                        <Button onClick={handleEditOpen}><ViewHeadlineIcon /></Button>
-                                        <Modal
-                                            open={open}
-                                            onClose={handleEditClose}
-                                            aria-labelledby="modal-modal-title"
-                                            aria-describedby="modal-modal-description"
-                                        >
-                                            <Box>
-                                                <form onSubmit={createRecipeIngredient}>
-                                                    <h3>Input Ingredient Data</h3>
-                                                    <input type="text" placeholder="" value={recIngName} onChange={(e) => setRecIngName(e.target.value)} />
-                                                    <input type="text" placeholder="" value={recIngQnt} onChange={(e) => setRecIngQnt(e.target.value)} />
-                                                    <input type="text" placeholder="" value={recIngTotalCal} onChange={(e) => setRecIngTotalCal(e.target.value)} />
-                                                    <input type="text" placeholder="" value={recIngTotalProt} onChange={(e) => setRecIngTotalProt(e.target.value)} />
-                                                    <input type="text" placeholder="" value={recIngTotalFat} onChange={(e) => setRecIngTotalFat(e.target.value)} />
-                                                    <input type="text" placeholder="" value={recIngTotalCarb} onChange={(e) => setRecIngTotalCarb(e.target.value)} />
-                                                    <input type="text" placeholder="" value={recIngTotalCost} onChange={(e) => setRecIngTotalCost(e.target.value)} />
-                                                </form>
-                                            </Box>
-                                        </Modal>
+                                        <AddIngredientsModal />
                                     </TableCell>
                                     <TableCell align="right"><Button color="info" onClick={handleEditOpen}><EditNoteIcon /></Button></TableCell>
                                     <TableCell align="right"><Button color="error" onClick={() => deleteRecipe(recipe.rec_id)}><DeleteIcon /></Button></TableCell>
@@ -271,5 +332,3 @@ export default function RecipeBook() {
         </div>
     )
 }
-
-
