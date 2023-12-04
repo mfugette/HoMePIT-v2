@@ -24,8 +24,6 @@ function ViewIngredientsModal() {
     const handleClose = () => setOpen(false);
 
     const supabase = useSupabaseClient();
-
-
     const [ingredients, setIngredients] = React.useState([]);
 
     const style = {
@@ -40,8 +38,7 @@ function ViewIngredientsModal() {
         p: 4,
     };
 
-
-    const readIngredient = async () => {
+    const readIngredients = async () => {
         try {
             const response = await supabase
                 .from('Ingredients')
@@ -53,9 +50,7 @@ function ViewIngredientsModal() {
             console.error(error);
         }
     };
-    readIngredient();
-
-
+    readIngredients();
 
     return (
         <div sx={{ overflow: "auto" }}>
@@ -95,6 +90,10 @@ function ViewIngredientsModal() {
             </div>
         </div>
     )
+}
+
+function getRecipeIngredientsFromPantry() {
+
 }
 
 
@@ -209,7 +208,6 @@ export default function RecipeBook() {
                 const response = await supabase
                     .from('Recipes')
                     .select('rec_id, rec_name, rec_serv_count')
-                // .range(0, 4)
                 const data = response.data;
                 setRecipes(data);
             } catch (error) {
@@ -236,7 +234,16 @@ export default function RecipeBook() {
     const createRecipeIngredient = async (e) => {
         e.preventDefault();
         try {
-            const { data } = await supabase
+            const response = await supabase
+                .from('Ingredients')
+                .select('ing_id, ing_name, ing_serv_qnt ing_serv_cal, ing_serv_prot, ing_serv_carb, ing_serv_fat')
+                setRecIngName();
+                setRecIngQnt();
+                setRecIngTotalCal();
+                setRecIngTotalCarb()
+                setRecIngTotalProt();
+                setRecIngTotalFat();
+            const { data = response.data } = await supabase
                 .from('Recipe Ingredients')
                 .insert([
                     {
