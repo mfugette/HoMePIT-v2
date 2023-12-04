@@ -5,6 +5,8 @@
 html,
 body {
   /* background-color: burlywood; */
+  background-image: url("/HoMePIT-Home.jpg");
+  background-size: cover;
   padding: 0;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
@@ -18,14 +20,14 @@ body {
   vertical-align: middle;
 }
 
-/* #homeLogo {
+#homeLogo {
   max-width: 100%;
   padding: 5%;
   background-color: blanchedalmond;
   text-align: center;
   vertical-align: middle;
   border: 5%, solid, black;
-} */
+}
 
 #homeH6 {
   padding-bottom: 0;
@@ -37,24 +39,29 @@ body {
   margin-top: 0;
 }
 
-/* #homeSignInForm {
-  margin-top: 90%;
-  max-width: 100%;
+#homeSignInForm {
+  background-color: blanchedalmond;
+  width:auto;
+  margin-top: 50%;
+  padding-top: 15%;
+  padding-bottom: 15%;
+  /* margin-top: 70%;
+  width: 150%;
   padding: 20%;
   background-color: blanchedalmond;
   text-align: center;
   vertical-align: middle;
-  border: 5%, solid, black;
-} */
+  border: 5%, solid, black; */
+} 
 
-#homeSignInButtonUl {
+#homeSignInButtonUL {
   list-style-type: none;
   margin: 0;
   padding: 0;
   overflow: hidden;
   background-color: burlywood;
   text-align: center;
-  border: 5%, solid, black;
+  border: 10px, solid, black;
 }
 
 #homeSignInButton a{

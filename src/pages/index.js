@@ -24,16 +24,6 @@ export default function Home() {
   );
 }
 
-// #homeSignInForm {
-//   margin-top: 90%;
-//   max-width: 100%;
-//   padding: 20%;
-//   background-color: blanchedalmond;
-//   text-align: center;
-//   vertical-align: middle;
-//   border: 5%, solid, black;
-// }
-
 function LoginPage() {
   const supabase = useSupabaseClient();
 
@@ -46,11 +36,15 @@ function LoginPage() {
   return (
     <>
       <div style={{ maxWidth: "100%", padding: "5%", textAlign: "center", verticalAlign: "middle" }}>
-        <h4>Welcome to</h4>
-        <img src="homepit.svg" alt="HoMePIT logo" width='125' height='auto' />
+        <div id="homeLogo">
+          <h5>Welcome to</h5>
+          <img src="homepit.svg" alt="HoMePIT logo" width='100%' /* width='125' */ height='auto' />
+        </div>
         <p></p>
-        <p>Please sign in to start cooking.</p>
-        <button onClick={loginWithGoogle}>Login</button>
+        <div id="homeSignInForm">
+          <p>Please sign in to start cooking.</p>
+          <button id="homeSignInButton" onClick={loginWithGoogle}>Login</button>
+        </div>
       </div>
     </>
   );
