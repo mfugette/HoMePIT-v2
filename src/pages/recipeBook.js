@@ -236,13 +236,13 @@ export default function RecipeBook() {
         try {
             const response = await supabase
                 .from('Ingredients')
-                .select('ing_id, ing_name, ing_serv_qnt ing_serv_cal, ing_serv_prot, ing_serv_carb, ing_serv_fat')
-                setRecIngName();
-                setRecIngQnt();
-                setRecIngTotalCal();
-                setRecIngTotalCarb()
-                setRecIngTotalProt();
-                setRecIngTotalFat();
+                .select('ing_id, ing_name, ing_serv_qnt, ing_serv_cal, ing_serv_prot, ing_serv_carb, ing_serv_fat')
+                setRecIngName(ing_name = recIngName);
+                setRecIngQnt(ing_serv_qnt = recIngQnt);
+                setRecIngTotalCal(ing_serv_cal = recIngTotalCal);
+                setRecIngTotalCarb(ing_serv_carb = recIngTotalCarb)
+                setRecIngTotalProt(ing_serv_prot = recIngTotalProt);
+                setRecIngTotalFat(ing_serv_fat = recIngTotalFat);
             const { data = response.data } = await supabase
                 .from('Recipe Ingredients')
                 .insert([
