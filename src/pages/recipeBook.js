@@ -23,6 +23,9 @@ function AddIngredientsModal() {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
+    const supabase = useSupabaseClient();
+
+
     const [ingredients, setIngredients] = React.useState([]);
 
     const style = {
@@ -57,7 +60,7 @@ function AddIngredientsModal() {
     return (
         <div sx={{ overflow: "auto" }}>
             <div sx={{ width: "100%", display: "table", tableLayout: "fixed" }}>
-                <Button variant="outline" color="primary" onClick={handleOpen} >Ingredient List</Button>
+                <Button variant="outline" color="primary" onClick={handleOpen} >Ingredients</Button>
                 <Modal
                     open={open}
                     onClose={handleClose}
@@ -251,24 +254,6 @@ export default function RecipeBook() {
         }
     };
 
-    const readIngredient = async () => {
-        try {
-            const response = await supabase
-                .from('Ingredients')
-                .select('ing_id, ing_name')
-            const data = response.data;
-            Pantry.setIngredients(data);
-            console.log(await supabase.auth.getUser())
-
-
-
-        } catch (error) {
-            console.error(error);
-        }
-    };
-    readIngredient();
-
-
     return (
         <div>
             <Button variant="contained" color="primary" onClick={handleAddOpen} >Add New Recipe</Button>
@@ -286,8 +271,8 @@ export default function RecipeBook() {
                         <input type="text" placeholder="Serving Count" value={servingCount} onChange={(e) => setServingCount(e.target.value)} />
                         <input type="text" placeholder="Ind Cook Time" value={indCookTime} onChange={(e) => setIndCookTime(e.target.value)} />
                         <input type="text" placeholder="Total Cook Time" value={totalCookTime} onChange={(e) => setTotalCookTime(e.target.value)} />
-                        <label for="cars" >Ingredients: </label>
-                        <FormControl sx={{ m: 1, width: 300, mt: 3 }}>
+                        <label>Ingredients:</label>
+                        <FormControl sx={{ m: 1, width: 187, mt: 3 }}>
                             <Select multiple value={ings}>
                                 <MenuItem disabled>
                                     <em>Placeholder</em>
