@@ -32,7 +32,7 @@ export default function MenuAppBar() {
     <Box sx={{ flexGrow: 1 }}>
 
       <AppBar position="static" color='inherit'>
-        <Toolbar>
+        <Toolbar id="navUl">
           <Sidebar />
 
 
