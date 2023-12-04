@@ -57,28 +57,38 @@ function AddIngredientsModal() {
     return (
         <div sx={{ overflow: "auto" }}>
             <div sx={{ width: "100%", display: "table", tableLayout: "fixed" }}>
-                <TableContainer component={Paper}>
-                    <Table aria-label="simple table">
-                        <TableHead>
-                            <TableRow>
-                                <TableCell style={{ width: '20%' }}>Ingredients:</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {ingredients.map((ingredient) => (
-                                <TableRow
-                                    key={ingredient.ing_id}
-                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                >
-                                    <TableCell component="th" scope="row">
-                                        {ingredient.ing_name}
-                                    </TableCell>
+                <Button variant="outline" color="primary" onClick={handleOpen} >Ingredient List</Button>
+                <Modal
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                >
+                    <Box sx={style}>
+                        <TableContainer component={Paper}>
+                            <Table aria-label="simple table">
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell style={{ width: '20%' }}>Ingredients:</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {ingredients.map((ingredient) => (
+                                        <TableRow
+                                            key={ingredient.ing_id}
+                                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                        >
+                                            <TableCell component="th" scope="row">
+                                                {ingredient.ing_name}
+                                            </TableCell>
 
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </Box>
+                </Modal>
             </div>
         </div>
     )
