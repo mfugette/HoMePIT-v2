@@ -37,6 +37,7 @@ export default function Pantry() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+
   const style = {
     position: 'absolute',
     top: '50%',
