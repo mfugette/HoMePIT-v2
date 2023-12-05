@@ -23,7 +23,7 @@ body {
 #homeLogo {
   max-width: 100%;
   padding: 5%;
-  background-color: rgb(223, 194, 151);
+  background-color: white;
   text-align: center;
   vertical-align: middle;
   border: 5%, solid, black;
@@ -40,7 +40,7 @@ body {
 }
 
 #homeSignInForm {
-  background-color: rgb(223, 194, 151);
+  background-color: white;
   width:auto;
   margin-top: 50%;
   padding-top: 15%;
@@ -93,11 +93,11 @@ a {
   margin: 0;
   padding: 0;
   overflow: hidden; */
-  background-color: rgb(223, 194, 151);
+  background-color: white;
 }
 
 #menu-appbar {
-  background-color: rgb(223, 194, 151);
+  background-color: white;
 }
 
 .foodList {
