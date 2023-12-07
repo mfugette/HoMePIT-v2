@@ -18,6 +18,7 @@ import Select from '@mui/material/Select';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import MenuItem from '@mui/material/MenuItem';
 
+
 function ViewIngredientsModal() {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
@@ -25,13 +26,14 @@ function ViewIngredientsModal() {
 
     const supabase = useSupabaseClient();
     const [ingredients, setIngredients] = React.useState([]);
+    const [ingName, setIngName] = React.useState();
 
     const style = {
         position: 'absolute',
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: 260,
+        width: 350,
         bgcolor: 'background.paper',
         border: '2px solid #000',
         boxShadow: 24,
@@ -129,7 +131,7 @@ export default function RecipeBook() {
 
     const supabase = useSupabaseClient();
 
-    const ings = []
+    //const ings = []
 
     const style = {
         position: 'absolute',
@@ -231,35 +233,39 @@ export default function RecipeBook() {
         }
     }
 
-    const createRecipeIngredient = async (e) => {
-        e.preventDefault();
+    const readIngredients = async () => {
         try {
             const response = await supabase
                 .from('Ingredients')
-                .select('ing_id, ing_name, ing_serv_qnt, ing_serv_cal, ing_serv_prot, ing_serv_carb, ing_serv_fat')
-                setRecIngName(ing_name = recIngName);
-                setRecIngQnt(ing_serv_qnt = recIngQnt);
-                setRecIngTotalCal(ing_serv_cal = recIngTotalCal);
-                setRecIngTotalCarb(ing_serv_carb = recIngTotalCarb)
-                setRecIngTotalProt(ing_serv_prot = recIngTotalProt);
-                setRecIngTotalFat(ing_serv_fat = recIngTotalFat);
-            const { data = response.data } = await supabase
+                .select('ing_id, ing_name')
+            const data = response.data;
+            setRecipeIngredients(data);
+            console.log(await supabase.auth.getUser())
+        } catch (error) {
+            console.error(error);
+        }
+    };
+    readIngredients();
+
+    const createRecipeIngredient = async (e) => {
+        try {
+            const { data } = await supabase
                 .from('Recipe Ingredients')
                 .insert([
                     {
-                        ing_qnt: recIngQnt,
-                        ing_total_cal: recIngTotalCal,
-                        ing_total_prot: recIngTotalProt,
-                        ing_total_fat: recIngTotalFat,
-                        ing_total_carb: recIngTotalCarb,
-                        user_id: uid,
+                        rec_serv_prot: recIngTotalProt,
+                        rec_serv_fat: recIngTotalFat,
+                        rec_serv_carb: recIngTotalCarb,
+                        rec_serv_cost: recIngTotalCost,
+                        user_id: uid
                     }
                 ]);
             return data;
         } catch (error) {
             console.error(error);
         }
-    };
+    }
+
 
     return (
         <div>
@@ -278,14 +284,16 @@ export default function RecipeBook() {
                         <input type="text" placeholder="Serving Count" value={servingCount} onChange={(e) => setServingCount(e.target.value)} />
                         <input type="text" placeholder="Ind Cook Time" value={indCookTime} onChange={(e) => setIndCookTime(e.target.value)} />
                         <input type="text" placeholder="Total Cook Time" value={totalCookTime} onChange={(e) => setTotalCookTime(e.target.value)} />
-                        <label>Ingredients:</label>
-                        <FormControl sx={{ m: 1, width: 187, mt: 3 }}>
-                            <Select multiple value={ings}>
-                                <MenuItem disabled>
-                                    <em>Placeholder</em>
-                                </MenuItem>
-                            </Select>
-                        </FormControl>
+                        {/* <label>Ingredients:</label> */}
+
+                        <select multiple>
+                            {recipeIngredients.map((ingredient) => (
+                                <option key={ingredient.ing_id} value={ingredient.ing_id}>
+                                    {ingredient.ing_name}
+                                </option>
+                            ))}
+                        </select>
+
                         {/* <input type="text" placeholder="Total Calories" value={servingCalories} onChange={(e) => setServingCalories(e.target.value)} />
                         <input type="text" placeholder="Total Protein" value={servingProtein} onChange={(e) => setServingProtein(e.target.value)} />
                         <input type="text" placeholder="Total Fat" value={servingFat} onChange={(e) => setServingFat(e.target.value)} />
