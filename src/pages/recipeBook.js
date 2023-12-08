@@ -226,10 +226,14 @@ export default function RecipeBook() {
 
     return (
         <div>
-            <Button variant="contained" color="primary" onClick={() => setOpenAddModal(true)}>
-                Add New Recipe
-            </Button>
-            <h3>Your Recipes:</h3>
+            <div className='centered'>
+                <Button id='addButton' variant="contained" color="primary" onClick={() => setOpenAddModal(true)}>
+                    Add New Recipe
+                </Button>
+            </div>
+            <div className='centered'>
+                <h3>Your Recipes</h3>
+            </div>
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>

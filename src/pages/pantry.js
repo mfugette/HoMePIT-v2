@@ -143,13 +143,18 @@ export default function Pantry() {
   return (
 
     <div>
-      <Button variant="contained"
-        color="primary"
-        onClick={() => setOpenAddModal(true)}
-      >
-        Add New Ingredient
-      </Button>
-      <h3>Your Ingredients:</h3>
+      <div className='centered'>
+        <Button variant="contained"
+          color="primary"
+          onClick={() => setOpenAddModal(true)}
+          id='addButton'
+        >
+          Add New Ingredient
+        </Button>
+      </div>
+      <div className='centered'>
+        <h3>Your Ingredients</h3>
+      </div>
       <Modal open={openAddModal} onClose={() => setOpenAddModal(false)}>
         <Box sx={{
           position: 'absolute',
@@ -263,11 +268,11 @@ export default function Pantry() {
             <Table aria-label="simple table">
               <TableHead>
                 <TableRow>
-                  <TableCell style={{ width: '20%' }}>Ingredient</TableCell>
-                  <TableCell style={{ width: '20%' }} align="right">Quantity</TableCell>
-                  <TableCell style={{ width: '20%' }} >Units</TableCell>
-                  <TableCell style={{ width: '20%' }} align="right">Edit</TableCell>
-                  <TableCell style={{ width: '20%' }} align="right">Delete</TableCell>
+                  <TableCell >Ingredient</TableCell>
+                  <TableCell align="right">Quantity</TableCell>
+                  <TableCell  >Units</TableCell>
+                  <TableCell align="right">Edit</TableCell>
+                  <TableCell align="right">Delete</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
