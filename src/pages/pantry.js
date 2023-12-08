@@ -2,12 +2,9 @@ import React from 'react';
 import { useEffect } from 'react';
 //import supabase from '@/config/supabaseClient.js';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
-import Popup from 'reactjs-popup';
-import 'reactjs-popup/dist/index.css';
-import { Box, Button, Modal } from '@mui/material';
+import { Box, Button, Modal, TextField, InputLabel, Select, OutlinedInput, MenuProps, MenuItem, Checkbox, ListItemText } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditNoteIcon from '@mui/icons-material/EditNote';
-
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -36,6 +33,9 @@ export default function Pantry() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const [openAddModal, setOpenAddModal] = React.useState(false);
+  const [openEditModal, setOpenEditModal] = React.useState(false);
 
 
   const style = {
@@ -141,66 +141,154 @@ export default function Pantry() {
   }
 
   return (
-    
-    <div>
-      <Button variant="contained" color="primary" onClick={handleOpen} >Add New Ingredient</Button>
-      <h3>Your Ingredients:</h3>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <form onSubmit={createIngredient} className="add">
-            <h3>Input Food</h3>
-            <input type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
-            <input type="text" placeholder="Quantity" value={quantity} onChange={(e) => setQuantity(e.target.value)} />
-            <input type="text" placeholder="Threshold" value={threshold} onChange={(e) => setThreshold(e.target.value)} />
-            <input type="text" placeholder="Serving Size" value={servingSize} onChange={(e) => setServingSize(e.target.value)} />
-            <input type="text" placeholder="Calories" value={calories} onChange={(e) => setCalories(e.target.value)} />
-            <input type="text" placeholder="Protein" value={protein} onChange={(e) => setProtein(e.target.value)} />
-            <input type="text" placeholder="Fat" value={fat} onChange={(e) => setFat(e.target.value)} />
-            <input type="text" placeholder="Carbohydrate" value={carbohydrate} onChange={(e) => setCarbohydrate(e.target.value)} />
-            <input type="text" placeholder="Purchased Servings" value={purchasedServings} onChange={(e) => setPurchasedServings(e.target.value)} />
-            <input type="text" placeholder="Cost" value={cost} onChange={(e) => setCost(e.target.value)} />
 
-            <Button variant="contained" color="primary" type="submit">Add Ingredient</Button>
+    <div>
+      <Button variant="contained"
+        color="primary"
+        onClick={() => setOpenAddModal(true)}
+      >
+        Add New Ingredient
+      </Button>
+      <h3>Your Ingredients:</h3>
+      <Modal open={openAddModal} onClose={() => setOpenAddModal(false)}>
+        <Box sx={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: 400,
+          bgcolor: 'background.paper',
+          boxShadow: 24,
+          p: 4
+        }}>
+          <form onSubmit={createIngredient}>
+            <h3>Input Food</h3>
+            <TextField
+              fullWidth
+              required
+              variant="outlined"
+              margin="normal"
+              label="Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+            <TextField
+              fullWidth
+              required
+              variant="outlined"
+              margin="normal"
+              label="Quantity"
+              value={quantity}
+              onChange={(e) => setQuantity(e.target.value)}
+            />
+            <TextField
+              fullWidth
+              variant="outlined"
+              margin="normal"
+              label="Threshold"
+              value={threshold}
+              onChange={(e) => setThreshold(e.target.value)}
+            />
+            <TextField
+              fullWidth
+              variant="outlined"
+              margin="normal"
+              label="Serving Size"
+              value={servingSize}
+              onChange={(e) => setServingSize(e.target.value)}
+            />
+            <TextField
+              fullWidth
+              variant="outlined"
+              margin="normal"
+              label="Calories"
+              value={calories}
+              onChange={(e) => setCalories(e.target.value)}
+            />
+            <TextField
+              fullWidth
+              variant="outlined"
+              margin="normal"
+              label="Protein"
+              value={protein}
+              onChange={(e) => setProtein(e.target.value)}
+            />
+            <TextField
+              fullWidth
+              variant="outlined"
+              margin="normal"
+              label="Fat"
+              value={fat}
+              onChange={(e) => setFat(e.target.value)}
+            />
+            <TextField
+              fullWidth
+              variant="outlined"
+              margin="normal"
+              label="Carbohydrate"
+              value={carbohydrate}
+              onChange={(e) => setCarbohydrate(e.target.value)}
+            />
+            <TextField
+              fullWidth
+              variant="outlined"
+              margin="normal"
+              label="Purchased Servings"
+              value={purchasedServings}
+              onChange={(e) => setPurchasedServings(e.target.value)}
+            />
+            <TextField
+              fullWidth
+              variant="outlined"
+              margin="normal"
+              label="Cost"
+              value={cost}
+              onChange={(e) => setCost(e.target.value)}
+            />
+
+            <Button
+              fullWidth
+              variant="contained"
+              color="primary"
+              type="submit"
+            >
+              Add Ingredient
+            </Button>
           </form>
         </Box>
       </Modal>
       <div sx={{ overflow: "auto" }}>
         <div sx={{ width: "100%", display: "table", tableLayout: "fixed" }}>
-        <TableContainer component={Paper}>
-          <Table aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell style={{width: '20%'}}>Ingredient</TableCell>
-                <TableCell style={{width: '20%'}} align="right">Quantity</TableCell>
-                <TableCell style={{width: '20%'}} >Units</TableCell>
-                <TableCell style={{width: '20%'}} align="right">Edit</TableCell>
-                <TableCell style={{width: '20%'}} align="right">Delete</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {ingredients.map((ingredient) => (
-                <TableRow
-                  key={ingredient.ing_id}
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                >
-                  <TableCell component="th" scope="row">
-                    {ingredient.ing_name}
-                  </TableCell>
-                  <TableCell align="right">{ingredient.ing_qnt}</TableCell>
-                  <TableCell align="right">{ingredient.ing_serv_cal}</TableCell>
-                  <TableCell align="right"><Button color="info" onClick={handleOpen}><EditNoteIcon /></Button></TableCell>
-                  <TableCell align="right"><Button color="error" onClick={() => deleteIngredient(ingredient.ing_id)}><DeleteIcon /></Button></TableCell>
-
+          <TableContainer component={Paper}>
+            <Table aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell style={{ width: '20%' }}>Ingredient</TableCell>
+                  <TableCell style={{ width: '20%' }} align="right">Quantity</TableCell>
+                  <TableCell style={{ width: '20%' }} >Units</TableCell>
+                  <TableCell style={{ width: '20%' }} align="right">Edit</TableCell>
+                  <TableCell style={{ width: '20%' }} align="right">Delete</TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+              </TableHead>
+              <TableBody>
+                {ingredients.map((ingredient) => (
+                  <TableRow
+                    key={ingredient.ing_id}
+                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                  >
+                    <TableCell component="th" scope="row">
+                      {ingredient.ing_name}
+                    </TableCell>
+                    <TableCell align="right">{ingredient.ing_qnt}</TableCell>
+                    <TableCell align="right">{ingredient.ing_serv_cal}</TableCell>
+                    <TableCell align="right"><Button color="info" onClick={handleOpen}><EditNoteIcon /></Button></TableCell>
+                    <TableCell align="right"><Button color="error" onClick={() => deleteIngredient(ingredient.ing_id)}><DeleteIcon /></Button></TableCell>
+
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
         </div>
       </div>
       {/* <Modal
