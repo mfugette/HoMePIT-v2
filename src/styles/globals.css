@@ -19,7 +19,6 @@ body {
   background-color: burlywood;
   position: absolute;
   top: 64px;
-  ;
   bottom: 0;
   left: 0;
   right: 0;
@@ -35,7 +34,6 @@ body {
 #homeLogo {
   max-width: 100%;
   padding: 5%;
-  background-color: white;
   text-align: center;
   vertical-align: middle;
   border: 5%, solid, black;
@@ -65,19 +63,9 @@ body {
 }
 
 #homeSignInForm {
-  background-color: white;
   width: auto;
-  margin-top: 50%;
-  padding-top: 15%;
   padding-bottom: 15%;
   border: 5%, solid, black;
-  /* margin-top: 70%;
-  width: 150%;
-  padding: 20%;
-  background-color: blanchedalmond;
-  text-align: center;
-  vertical-align: middle;
-  border: 5%, solid, black; */
 }
 
 #homeSignInButtonUL {

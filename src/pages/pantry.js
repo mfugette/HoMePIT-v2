@@ -37,18 +37,8 @@ export default function Pantry() {
   const [openAddModal, setOpenAddModal] = React.useState(false);
   const [openEditModal, setOpenEditModal] = React.useState(false);
 
+  const [editIngredientId, setEditIngredientId] = React.useState();
 
-  const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 260,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-  };
 
   supabase.auth.getUser().then(value => {
     try {
@@ -61,8 +51,9 @@ export default function Pantry() {
     try {
       const { data } = await supabase
         .from('Ingredients')
-        .insert([
+        .upsert([
           {
+            ing_id: editIngredientId,
             ing_name: name,
             ing_qnt: quantity,
             ing_threshold_qnt: threshold,
@@ -131,10 +122,9 @@ export default function Pantry() {
       const response = await supabase
         .from('Ingredients')
         .delete()
-        .eq('ing_id', id)
-      const data = response.data;
-      setIngredients(data);
-      location.reload();
+        .match({ ing_id: id })
+      console.log(response.data);
+      setIngredients(ingredients.filter((ingredient) => ingredient.ing_id !== id));
     } catch (error) {
       console.error(error);
     }
@@ -144,7 +134,8 @@ export default function Pantry() {
 
     <div>
       <div className='centered'>
-        <Button variant="contained"
+        <Button
+          variant="contained"
           color="primary"
           onClick={() => setOpenAddModal(true)}
           id='addButton'
@@ -155,19 +146,24 @@ export default function Pantry() {
       <div className='centered'>
         <h3>Your Ingredients</h3>
       </div>
-      <Modal open={openAddModal} onClose={() => setOpenAddModal(false)}>
-        <Box sx={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: 400,
-          bgcolor: 'background.paper',
-          boxShadow: 24,
-          p: 4
-        }}>
+      <Modal
+        open={openAddModal}
+        onClose={() => setOpenAddModal(false)}
+      >
+        <Box
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: 400,
+            bgcolor: 'background.paper',
+            boxShadow: 24,
+            p: 4
+          }}>
           <form onSubmit={createIngredient}>
             <h3>Input Food</h3>
+            {/* {() => setEditIngredientId(editIngredientId)} */}
             <TextField
               fullWidth
               required
@@ -282,13 +278,35 @@ export default function Pantry() {
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                   >
                     <TableCell component="th" scope="row">
-                      {ingredient.ing_name}
+                      {ingredient.ing_id}: {ingredient.ing_name}
                     </TableCell>
                     <TableCell align="right">{ingredient.ing_qnt}</TableCell>
                     <TableCell align="right">{ingredient.ing_serv_cal}</TableCell>
-                    <TableCell align="right"><Button color="info" onClick={handleOpen}><EditNoteIcon /></Button></TableCell>
-                    <TableCell align="right"><Button color="error" onClick={() => deleteIngredient(ingredient.ing_id)}><DeleteIcon /></Button></TableCell>
+                    {/* <TableCell align="right"><Button color="info" ><EditNoteIcon /></Button></TableCell> */}
+                    <TableCell align="right">
+                      <Button
+                        color="info"
+                        onClick={() => {
+                          setOpenAddModal(true);
 
+                          setName(ingredient.ing_name);
+                          setQuantity(ingredient.ing_qnt);
+                          setThreshold(ingredient.ing_threshold_qnt);
+                          setServingSize(ingredient.ing_serv_qnt);
+                          setCalories(ingredient.ing_serv_cal);
+                          setProtein(ingredient.ing_serv_prot);
+                          setFat(ingredient.ing_serv_fat);
+                          setCarbohydrate(ingredient.ing_serv_carb);
+                          setPurchasedServings(ingredient.ing_purchase_serv_cnt);
+                          setCost(ingredient.ing_purchase_cost);
+                          // Save the ing_id for updating later
+                          setEditIngredientId(ingredient.ing_id);
+                        }}
+                      >
+                        <EditNoteIcon />
+                      </Button>
+                    </TableCell>
+                    <TableCell align="right"><Button color="error" onClick={() => deleteIngredient(ingredient.ing_id)}><DeleteIcon /></Button></TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -296,35 +314,6 @@ export default function Pantry() {
           </TableContainer>
         </div>
       </div>
-      {/* <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <form onSubmit={updateIngredient} className="edit">
-            <h3>Edit Food</h3>
-            <input type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
-            <input type="text" placeholder="Quantity" value={quantity} onChange={(e) => setQuantity(e.target.value)} />
-            <input type="text" placeholder="Threshold" value={threshold} onChange={(e) => setThreshold(e.target.value)} />
-            <input type="text" placeholder="Serving Size" value={servingSize} onChange={(e) => setServingSize(e.target.value)} />
-            <input type="text" placeholder="Calories" value={calories} onChange={(e) => setCalories(e.target.value)} />
-            <input type="text" placeholder="Protein" value={protein} onChange={(e) => setProtein(e.target.value)} />
-            <input type="text" placeholder="Fat" value={fat} onChange={(e) => setFat(e.target.value)} />
-            <input type="text" placeholder="Carbohydrate" value={carbohydrate} onChange={(e) => setCarbohydrate(e.target.value)} />
-            <input type="text" placeholder="Purchased Servings" value={purchasedServings} onChange={(e) => setPurchasedServings(e.target.value)} />
-            <input type="text" placeholder="Cost" value={cost} onChange={(e) => setCost(e.target.value)} />
-
-            <Button variant="contained" color="primary" type="submit">Add Ingredient</Button>
-          </form>
-        </Box>
-      </Modal> */}
-
     </div>
-
-
-
-
   );
 };

@@ -1,5 +1,5 @@
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
-
+import { Button } from "@mui/material";
 
 
 export default function Home() {
@@ -18,7 +18,7 @@ export default function Home() {
     <>
       <div style={{ maxWidth: "100%", padding: "5%", textAlign: "center", verticalAlign: "middle" }}>
         <h4>Sign out below.</h4>
-        <button onClick={handleLogout}>Logout</button>
+        <Button variant="contained" color="primary" onClick={handleLogout}>Logout</Button>
       </div>
     </>
   );
@@ -43,7 +43,7 @@ function LoginPage() {
         <p></p>
         <div id="homeSignInForm">
           <p>Please sign in to start cooking.</p>
-          <button id="homeSignInButton" onClick={loginWithGoogle}>Login</button>
+          <Button variant="contained" color="primary" id="homeSignInButton" onClick={loginWithGoogle}>Login</Button>
         </div>
       </div>
     </>
