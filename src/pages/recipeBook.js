@@ -269,13 +269,76 @@ export default function RecipeBook() {
                             onChange={(e) => setServingCount(e.target.value)}
                         />
                         <TextField
-                            label="Cook Time"
+                            label="Total Cook Time"
                             variant="outlined"
                             margin="normal"
                             fullWidth
                             required                            
                             value={totalCookTime}
                             onChange={(e) => setTotalCookTime(e.target.value)}
+                        />
+                        <TextField
+                            label="Cook Time"
+                            variant="outlined"
+                            margin="normal"
+                            fullWidth
+                            required                            
+                            value={indCookTime}
+                            onChange={(e) => setIndCookTime(e.target.value)}
+                        />
+                        <TextField
+                            label="Calories per Serving"
+                            variant="outlined"
+                            margin="normal"
+                            fullWidth
+                            required                            
+                            value={servingCalories}
+                            onChange={(e) => setServingCalories(e.target.value)}
+                        />
+                        <TextField
+                            label="Protein per Serving"
+                            variant="outlined"
+                            margin="normal"
+                            fullWidth
+                            required                            
+                            value={servingProtein}
+                            onChange={(e) => setServingProtein(e.target.value)}
+                        />
+                        <TextField
+                            label="Fat per Serving"
+                            variant="outlined"
+                            margin="normal"
+                            fullWidth
+                            required                            
+                            value={servingFat}
+                            onChange={(e) => setServingFat(e.target.value)}
+                        />
+                        <TextField
+                            label="Carbs per Serving"
+                            variant="outlined"
+                            margin="normal"
+                            fullWidth
+                            required                            
+                            value={servingCarbohydrate}
+                            onChange={(e) => setServingCarbohydrate(e.target.value)}
+                        />
+                        <TextField
+                            label="Cost per Serving"
+                            variant="outlined"
+                            margin="normal"
+                            fullWidth
+                            required                            
+                            value={servingCost}
+                            onChange={(e) => setServingCost(e.target.value)}
+                        />
+                        <TextField
+                            label="Time Since Last Eaten"
+                            variant="outlined"
+                            margin="normal"
+                            fullWidth
+                            required                            
+                            value={timeSinceLastEaten}
+                            onChange={(e) => setTimeSinceLastEaten(e.target.value)}
                         />
                         <InputLabel id="demo-multiple-checkbox-label">Ingredients</InputLabel>
                         <Select
