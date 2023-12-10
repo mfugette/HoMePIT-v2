@@ -40,15 +40,36 @@ export default function RecipeBook() {
     const [recIngTotalCarb, setRecIngTotalCarb] = React.useState();
     const [recIngTotalCost, setRecIngTotalCost] = React.useState();
 
-    const handleChange = (event) => {
-        const {
-            target: { value },
-        } = event;
-        setRecIngName(
-            // On autofill we get a stringified value.
-            typeof value === 'string' ? value.split(',') : value,
-        );
-    };
+    const [selectedIngredients, setSelectedIngredients] = React.useState([]);
+
+    function getRandomInt(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    const [editRecipeId, setEditRecipeId] = React.useState(getRandomInt(1, 999));
+
+    // const handleChange = (event) => {
+    //     const {
+    //         target: { value },
+    //     } = event;
+    //     setRecIngName(
+    //         // On autofill we get a stringified value.
+    //         typeof value === 'string' ? value.split(',') : value,
+    //     );
+    // };
+
+    const handleChange = (e) => {
+        const { target: { value }, checked } = e;
+        const selectedIngredientId = value;
+
+        if (checked) {
+            setSelectedIngredients([...selectedIngredients, selectedIngredientId]);
+        } else {
+            setSelectedIngredients(selectedIngredients.filter((id) => id !== selectedIngredientId));
+        }
+    }
 
     const supabase = useSupabaseClient();
     supabase.auth.getUser().then(value => {
@@ -56,20 +77,6 @@ export default function RecipeBook() {
             setUid(value.data.user.id)
         } catch { }
     })
-
-    // const readIngredients = async () => {
-    //     try {
-    //         const response = await supabase
-    //             .from('Ingredients')
-    //             .select('ing_id, ing_name')
-    //         const data = response.data;
-    //         setRecipeIngredients(data);
-    //         await supabase.auth.getUser()
-    //     } catch (error) {
-    //         console.error(error);
-    //     }
-    // };
-    // readIngredients();
 
     React.useEffect(() => {
         const fetchRecipes = async () => {
@@ -88,30 +95,47 @@ export default function RecipeBook() {
         fetchRecipes();
     }, []);
 
-    // React.useEffect(() => {
-    //     const fetchIngredients = async () => {
-    //         try {
-    //             const response = await supabase
-    //                 .from('Ingredients')
-    //                 .select('ing_id, ing_name');
-    //             const data = response.data;
-    //             setRecipeIngredients(data);
-    //         } catch (error) {
-    //             console.error(error);
-    //         }
+    React.useEffect(() => {
+        const fetchIngredients = async () => {
+            try {
+                const response = await supabase
+                    .from('Ingredients')
+                    .select('ing_id, ing_name, ing_qnt');
+                const data = response.data;
+                setRecipeIngredients(data);
+            } catch (error) {
+                console.error(error);
+            }
 
-    //     };
+        };
 
-    //     fetchIngredients();
-    // }, []);
+        fetchIngredients();
+    }, []);
 
-    const createRecipe = async (e) => {
+    const createRecipeIngredient = async (recipeId, ingId, qnt) => {
+        try {
+            const { data } = await supabase.from('Recipe Ingredients').insert([
+                {
+                    rec_id: recipeId,
+                    ing_id: ingId,
+                    ing_qnt: qnt,
+                    user_id: uid
+                },
+            ]);
+            return data;
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const upsertRecipe = async (e) => {
         e.preventDefault();
         try {
             const { data } = await supabase
                 .from('Recipes')
-                .insert([
+                .upsert([
                     {
+                        rec_id: editRecipeId,
                         rec_name: recipeName,
                         rec_serv_count: servingCount,
                         rec_ind_cook_time: indCookTime,
@@ -123,84 +147,22 @@ export default function RecipeBook() {
                         rec_serv_cost: servingCost,
                         rec_time_since_eaten: timeSinceLastEaten,
                         user_id: uid
-                    }
+                    },
                 ]);
+
+            if (recipeIngredients.length) {
+                for (const ingredient of recipeIngredients) {
+                    await createRecipeIngredient(editRecipeId, ingredient.ing_id, ingredient.ing_qnt);
+                }
+            }
             return data;
         } catch (error) {
             console.error(error);
         }
     };
 
-    // const createRecipeIngredient = async (e) => {
-    //     e.preventDefault();
-    //     try {
-    //         const { data } = await supabase
-    //             .from('Recipe Ingredients')
-    //             .insert([
-    //                 {
-    //                     rec_id: recipeID,
-    //                     ing_id: recipeIngID,
-    //                     ing_qnt: recIngQnt,
-    //                     ing_total_cal: recIngTotalCal,
-    //                     ing_total_prot: recIngTotalProt,
-    //                     ing_total_fat: recIngTotalFat,
-    //                     ing_total_carb: recIngTotalCarb,
-    //                     ing_total_cost: recIngTotalCost,
-    //                     user_id: uid
-    //                 }
-    //             ]);
-    //         return data;
-    //     } catch (error) {
-    //         console.error(error);
-    //     }
-    // };
 
-    // const handleAddRecipe = async (event) => {
-    //     event.preventDefault();
 
-    //     const newRecipe = {
-    //         rec_name: recipeName,
-    //         rec_serv_count: recipeServings,
-    //         rec_ind_cook_time: recipeCookTime,
-    //         rec_total_cook_time: recipeTotalCookTime,
-    //     };
-
-    //     try {
-    //         const response = await supabase
-    //             .from('Recipes')
-    //             .insert([newRecipe]);
-    //         console.log(response.data);
-
-    //         setRecipes([...recipes, response.data[0]]);
-    //         setOpenAddModal(false);
-    //         // Clear the form data after successful addition
-    //         setNewRecipeData({
-    //             name: '',
-    //             servingCount: '',
-    //             cookTime: '',
-    //             totalCookTime: '',
-    //         });
-    //     } catch (error) {
-    //         console.error(error);
-    //     }
-    // };
-
-    // const handleEditRecipe = async (event) => {
-    //     event.preventDefault();
-
-    //     const updatedRecipe = {
-    //         // ... updated recipe details
-    //     };
-
-    //     try {
-    //         const response = await supabase.from('Recipes').update([updatedRecipe]).match({ rec_id: event.target.rec_id.value });
-    //         console.log(response.data);
-    //         setRecipes(recipes.map((recipe) => (recipe.rec_id === updatedRecipe.rec_id ? updatedRecipe : recipe)));
-    //         setOpenEditModal(false);
-    //     } catch (error) {
-    //         console.error(error);
-    //     }
-    // };
 
     const deleteRecipe = async (id) => {
         try {
@@ -238,14 +200,25 @@ export default function RecipeBook() {
                     </TableHead>
                     <TableBody>
                         {recipes.map((recipe) => (
-                            <TableRow key={recipe.rec_id}>
+                            <TableRow
+                                key={recipe.rec_id}>
                                 <TableCell component="th" scope="row">
-                                    {recipe.rec_name}
+                                    {recipe.rec_id} : {recipe.rec_name}
                                 </TableCell>
                                 <TableCell align="right">{recipe.rec_serv_count}</TableCell>
                                 <TableCell>View Ingredients</TableCell>
                                 <TableCell align="right">
-                                    <Button color="info" onClick={() => setOpenEditModal(true)}>
+                                    <Button
+                                        color="info"
+                                        onClick={() => {
+                                            setOpenAddModal(true);
+                                            setRecipeName(recipe.rec_name);
+                                            setServingCount(recipe.rec_serv_count);
+                                            setTotalCookTime(recipe.rec_total_cook_time);
+
+                                            setEditRecipeId(recipe.rec_id);
+                                        }}
+                                    >
                                         <EditNoteIcon />
                                     </Button>
                                 </TableCell>
@@ -276,7 +249,7 @@ export default function RecipeBook() {
                         p: 4
                     }}>
                     <h2>Add New Recipe</h2>
-                    <form onSubmit={createRecipe}>
+                    <form onSubmit={upsertRecipe}>
                         <TextField
                             label="Name"
                             variant="outlined"
@@ -291,7 +264,7 @@ export default function RecipeBook() {
                             variant="outlined"
                             margin="normal"
                             fullWidth
-                            // required
+                            required                            
                             value={servingCount}
                             onChange={(e) => setServingCount(e.target.value)}
                         />
@@ -300,29 +273,43 @@ export default function RecipeBook() {
                             variant="outlined"
                             margin="normal"
                             fullWidth
-                            // required
+                            required                            
                             value={totalCookTime}
                             onChange={(e) => setTotalCookTime(e.target.value)}
                         />
                         <InputLabel id="demo-multiple-checkbox-label">Ingredients</InputLabel>
-                        {/* <Select
+                        <Select
                             labelId="demo-multiple-checkbox-label"
                             id=""
                             multiple
                             fullWidth
-                            value={recipeIngredients}
-                            onChange={handleChange}
+                            value={selectedIngredients}
+                            onChange={(event) => {
+                                const newSelectedIngredients = [...event.target.value]; // Create a copy of the current value
+                                // Add or remove ingredient based on checkbox state ?????
+                                if (newSelectedIngredients.includes(event.target.value)) {
+                                    newSelectedIngredients.splice(newSelectedIngredients.indexOf(event.target.value), 1);
+                                } else {
+                                    newSelectedIngredients.push(event.target.value);
+                                }
+                                setSelectedIngredients(newSelectedIngredients); // Update state
+                            }}
                             input={<OutlinedInput label="Ingredients" />}
-                            renderValue={(selectedIngredients) => selectedIngredients.map((ing) => ing.ing_name).join(', ')} // Render ingredient names
+                            renderValue={(selectedIngredients) =>
+                                selectedIngredients.map((id) => {
+                                    const ingredient = recipeIngredients.find((ing) => ing.ing_id === id);
+                                    return ingredient && ingredient.ing_name;
+                                }).join(', ')
+                            }
                             MenuProps={MenuProps}
                         >
                             {recipeIngredients.map((ingredient) => (
-                                <MenuItem key={ingredient.ing_id} value={ingredient.ing_name}>
-                                    <Checkbox checked={recipeIngredients.includes(ingredient.ing_id)} />
+                                <MenuItem key={ingredient.ing_id} value={ingredient.ing_id}>
+                                    <Checkbox checked={selectedIngredients.includes(ingredient.ing_id)} />
                                     <ListItemText primary={ingredient.ing_name} />
                                 </MenuItem>
                             ))}
-                        </Select> */}
+                        </Select>
                         <Button
                             fullWidth
                             variant="contained"

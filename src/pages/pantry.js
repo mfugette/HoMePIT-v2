@@ -1,6 +1,5 @@
 import React from 'react';
 import { useEffect } from 'react';
-//import supabase from '@/config/supabaseClient.js';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { Box, Button, Modal, TextField, InputLabel, Select, OutlinedInput, MenuProps, MenuItem, Checkbox, ListItemText } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -12,6 +11,13 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+// you need a function that looks at all ing_id's and returns an array of nums all without any already present ing_id
 
 export default function Pantry() {
 
@@ -36,8 +42,9 @@ export default function Pantry() {
 
   const [openAddModal, setOpenAddModal] = React.useState(false);
   const [openEditModal, setOpenEditModal] = React.useState(false);
+  
 
-  const [editIngredientId, setEditIngredientId] = React.useState();
+  const [editIngredientId, setEditIngredientId] = React.useState(getRandomInt(1, 999));
 
 
   supabase.auth.getUser().then(value => {
@@ -46,7 +53,7 @@ export default function Pantry() {
     } catch { }
   })
 
-  const createIngredient = async (e) => {
+  const upsertIngredient = async (e) => {
     e.preventDefault();
     try {
       const { data } = await supabase
@@ -73,40 +80,12 @@ export default function Pantry() {
     }
   };
 
-  const updateIngredient = async (e) => {
-    e.preventDefault();
-    try {
-      const { data } = await supabase
-        .from('Ingredients')
-        .update([
-          {
-            ing_name: name,
-            ing_qnt: quantity,
-            ing_threshold_qnt: threshold,
-            ing_serv_qnt: servingSize,
-            ing_serv_cal: calories,
-            ing_serv_prot: protein,
-            ing_serv_fat: fat,
-            ing_serv_carb: carbohydrate,
-            ing_purchase_serv_cnt: purchasedServings,
-            ing_purchase_cost: cost,
-            user_id: uid
-          }
-        ])
-        .select();
-      return data;
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   useEffect(() => {
     const readIngredient = async () => {
       try {
         const response = await supabase
           .from('Ingredients')
           .select('ing_id, ing_name, ing_qnt')
-        // .range(0, 4)
         const data = response.data;
         setIngredients(data);
         console.log(await supabase.auth.getUser())
@@ -161,9 +140,8 @@ export default function Pantry() {
             boxShadow: 24,
             p: 4
           }}>
-          <form onSubmit={createIngredient}>
+          <form onSubmit={upsertIngredient}>
             <h3>Input Food</h3>
-            {/* {() => setEditIngredientId(editIngredientId)} */}
             <TextField
               fullWidth
               required
@@ -184,6 +162,7 @@ export default function Pantry() {
             />
             <TextField
               fullWidth
+              required
               variant="outlined"
               margin="normal"
               label="Threshold"
@@ -192,6 +171,7 @@ export default function Pantry() {
             />
             <TextField
               fullWidth
+              required
               variant="outlined"
               margin="normal"
               label="Serving Size"
@@ -200,6 +180,7 @@ export default function Pantry() {
             />
             <TextField
               fullWidth
+              required
               variant="outlined"
               margin="normal"
               label="Calories"
@@ -208,6 +189,7 @@ export default function Pantry() {
             />
             <TextField
               fullWidth
+              required
               variant="outlined"
               margin="normal"
               label="Protein"
@@ -216,6 +198,7 @@ export default function Pantry() {
             />
             <TextField
               fullWidth
+              required
               variant="outlined"
               margin="normal"
               label="Fat"
@@ -224,6 +207,7 @@ export default function Pantry() {
             />
             <TextField
               fullWidth
+              required
               variant="outlined"
               margin="normal"
               label="Carbohydrate"
@@ -232,6 +216,7 @@ export default function Pantry() {
             />
             <TextField
               fullWidth
+              required
               variant="outlined"
               margin="normal"
               label="Purchased Servings"
@@ -240,6 +225,7 @@ export default function Pantry() {
             />
             <TextField
               fullWidth
+              required
               variant="outlined"
               margin="normal"
               label="Cost"
@@ -282,13 +268,11 @@ export default function Pantry() {
                     </TableCell>
                     <TableCell align="right">{ingredient.ing_qnt}</TableCell>
                     <TableCell align="right">{ingredient.ing_serv_cal}</TableCell>
-                    {/* <TableCell align="right"><Button color="info" ><EditNoteIcon /></Button></TableCell> */}
                     <TableCell align="right">
                       <Button
                         color="info"
                         onClick={() => {
                           setOpenAddModal(true);
-
                           setName(ingredient.ing_name);
                           setQuantity(ingredient.ing_qnt);
                           setThreshold(ingredient.ing_threshold_qnt);
@@ -299,7 +283,6 @@ export default function Pantry() {
                           setCarbohydrate(ingredient.ing_serv_carb);
                           setPurchasedServings(ingredient.ing_purchase_serv_cnt);
                           setCost(ingredient.ing_purchase_cost);
-                          // Save the ing_id for updating later
                           setEditIngredientId(ingredient.ing_id);
                         }}
                       >
