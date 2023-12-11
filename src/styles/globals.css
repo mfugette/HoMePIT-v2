@@ -46,6 +46,7 @@ body {
   padding-top: 15%;
   padding-bottom: 15%;
   border: 5%, solid, black;
+
   /* margin-top: 70%;
   width: 150%;
   padding: 20%;
@@ -60,14 +61,13 @@ body {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: burlywood;
   text-align: center;
   border: 10px, solid, black;
 }
 
 #homeSignInButton a{
   display: block;
-  color: black;
+  background-color: black;
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
@@ -110,7 +110,7 @@ a {
   float: left;
 }
 
-.navLi a {
+#signInLi a {
   display: block;
   color: white;
   text-align: center;
@@ -141,4 +141,21 @@ a {
 .add {
   width: 240px;
   display: inline-block;
+}
+
+
+
+
+
+
+
+
+/* Shopping List */
+#sLTitle {
+  margin: 5%;
+  max-width: 100%;
+  background-color: white;
+  text-align: center;
+  vertical-align: middle;
+  border: 5%, solid, black;
 }
