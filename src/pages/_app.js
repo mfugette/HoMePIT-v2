@@ -15,7 +15,7 @@ export default function App({ Component, pageProps }) {
       initialSession={pageProps.initialSession}
     >
       <MenuAppBar/>
-      <div style={{ display: 'flex', justifyContent: 'center', maxWidth: '100%' }}>
+      <div id="wrapper" style={{ display: 'flex', justifyContent: 'center', maxWidth: '100%' }}>
 
       <Component {...pageProps} />
       </div>
