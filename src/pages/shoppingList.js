@@ -50,10 +50,6 @@ export default function ShoppingList() {
   }, []);
 
   return (
-<<<<<<< HEAD
-    <div id="sLTitle" style={{ maxWidth: "100%", padding: "1%", textAlign: "center", verticalAlign: "middle" }}>
-      <h1>ShoppingList</h1>
-=======
     <div>
       <h3>Your Shopping List</h3>
 
@@ -72,7 +68,6 @@ export default function ShoppingList() {
           </List>
         </Demo>
       </Grid>
->>>>>>> 3d211227c2ac3dfa223e74c1fb113a8ced022a56
     </div>
   );
 }
