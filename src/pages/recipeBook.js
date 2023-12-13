@@ -12,8 +12,6 @@ import {
   MenuProps,
   MenuItem,
   Checkbox,
-  List,
-  ListItem,
   ListItemText,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -54,7 +52,8 @@ export default function RecipeBook() {
   const [recIngTotalCost, setRecIngTotalCost] = React.useState();
 
   const [selectedIngredients, setSelectedIngredients] = React.useState([]);
-  const [selectedRecipeIngredients, setSelectedRecipeIngredients] = React.useState([]);
+  const [selectedRecipeIngredients, setSelectedRecipeIngredients] =
+    React.useState([]);
 
   function getRandomInt(min, max) {
     min = Math.ceil(min);
@@ -62,17 +61,7 @@ export default function RecipeBook() {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
-  const [editRecipeId, setEditRecipeId] = React.useState(getRandomInt(1, 999));
-
-  // const handleChange = (event) => {
-  //     const {
-  //         target: { value },
-  //     } = event;
-  //     setRecIngName(
-  //         // On autofill we get a stringified value.
-  //         typeof value === 'string' ? value.split(',') : value,
-  //     );
-  // };
+  const [editRecipeId, setEditRecipeId] = React.useState(getRandomInt(1, 9999));
 
   const handleChange = (e) => {
     const {
@@ -119,7 +108,9 @@ export default function RecipeBook() {
       try {
         const response = await supabase
           .from("Ingredients")
-          .select("ing_id, ing_name, ing_qnt");
+          .select(
+            "ing_id, ing_name, ing_qnt, ing_serv_cal, ing_serv_prot, ing_serv_fat, ing_serv_carb, ing_purchase_serv_cnt, ing_purchase_cost"
+          );
         const data = response.data;
         setRecipeIngredients(data);
       } catch (error) {
@@ -132,7 +123,7 @@ export default function RecipeBook() {
 
   const createRecipeIngredient = async (recipeId, ingId, qnt) => {
     try {
-      const { data } = await supabase.from("Recipe Ingredients").insert([
+      const { data } = await supabase.from("Recipe Ingredients").upsert([
         {
           rec_id: recipeId,
           ing_id: ingId,
@@ -148,6 +139,7 @@ export default function RecipeBook() {
 
   const upsertRecipe = async (e) => {
     e.preventDefault();
+
     try {
       const { data } = await supabase.from("Recipes").upsert([
         {
@@ -194,6 +186,25 @@ export default function RecipeBook() {
     }
   };
 
+  React.useEffect(() => {
+    const fetchNutritionData = async () => {
+      try {
+        const response = await supabase
+          .from("Recipe Ingredients")
+          .select(
+            "rec_id, ing_total_cal, ing_total_prot, ing_total_carb, ing_total_fat, ing_total_cost"
+          );
+        const data = response.data;
+        //setRecipeIngredients(data);
+        //console.log(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchNutritionData();
+  }, []);
+
   return (
     <div>
       <div className="centered">
@@ -233,7 +244,7 @@ export default function RecipeBook() {
                       setOpenViewModal(true);
                     }}
                   >
-                    Ingredients
+                    Nutrition
                   </Button>
                 </TableCell>
                 <TableCell align="right">
@@ -244,6 +255,11 @@ export default function RecipeBook() {
                       setRecipeName(recipe.rec_name);
                       setServingCount(recipe.rec_serv_count);
                       setTotalCookTime(recipe.rec_total_cook_time);
+                      // setServingCalories(HELP);
+                      // setServingProtein(HELP);
+                      // setServingFat(HELP);
+                      // setServingCarbohydrate(HELP);
+                      // setServingCost(HELP);
 
                       setEditRecipeId(recipe.rec_id);
                     }}
@@ -382,7 +398,6 @@ export default function RecipeBook() {
               value={selectedIngredients}
               onChange={(event) => {
                 const newSelectedIngredients = [...event.target.value];
-                // Add or remove ingredient based on checkbox state ?????
                 if (newSelectedIngredients.includes(event.target.value)) {
                   newSelectedIngredients.splice(
                     newSelectedIngredients.indexOf(event.target.value),
@@ -434,16 +449,14 @@ export default function RecipeBook() {
             p: 4,
           }}
         >
-          <h3>Recipe Ingredients</h3>
-          <List>
-            {selectedRecipeIngredients.map((ingredient) => (
-              <ListItem key={ingredient.ing_id}>
-                <ListItemText
-                  primary={`${ingredient.ing_name} - ${ingredient.ing_qnt}`}
-                />
-              </ListItem>
-            ))}
-          </List>
+          <h3>Nutrition Data</h3>
+          <div>
+            <p>Total Protein: {}</p>
+            <p>Total Fat: {}</p>
+            <p>Total Carbohydrate: {}</p>
+            <p>Total Calories: {}</p>
+            <p>Total Cost: {}</p>
+          </div>
         </Box>
       </Modal>
     </div>

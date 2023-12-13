@@ -5,24 +5,25 @@
 html,
 body {
   /* background-color: burlywood; */
-  background-image: url("/HoMePIT-Home.jpg");
-  background-size: cover;
+  /* background-image: url("/HoMePIT-Home.jpg");
+  background-size: cover; */
   padding: 0;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
-#wrapper {
+/* #wrapper {
   width: 75%;
   margin: 0 auto;
   background-color: burlywood;
+  background-color: ;
   position: absolute;
   top: 64px;
   bottom: 0;
   left: 0;
   right: 0;
-}
+} */
 
 /*homepage*/
 #intro {
@@ -106,7 +107,7 @@ a {
   margin: 0;
   padding: 0;
   overflow: hidden; */
-  background-color: brown;
+  background-color: bisque;
 }
 
 #menu-appbar {
@@ -154,4 +155,10 @@ a {
 .add {
   width: 240px;
   display: inline-block;
+}
+
+.Calendar {
+  font-family: sans-serif;
+  text-align: center;
+  margin-top: 2.5%;
 }

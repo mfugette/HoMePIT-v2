@@ -55,7 +55,7 @@ export default function Pantry() {
   const [openViewModal, setOpenViewModal] = React.useState(false);
 
   const [editIngredientId, setEditIngredientId] = React.useState(
-    getRandomInt(1, 999)
+    getRandomInt(1, 9999)
   );
 
   supabase.auth.getUser().then((value) => {
