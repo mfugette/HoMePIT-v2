@@ -52,9 +52,8 @@ export default function RecipeBook() {
   const [recIngTotalCost, setRecIngTotalCost] = React.useState();
 
   const [selectedIngredients, setSelectedIngredients] = React.useState([]);
-  const [selectedRecipeIngredients, setSelectedRecipeIngredients] =
-    React.useState([]);
-
+  const [selectedRecipeIngredients, setSelectedRecipeIngredients] = React.useState([]);
+  
   function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
@@ -91,7 +90,9 @@ export default function RecipeBook() {
       try {
         const response = await supabase
           .from("Recipes")
-          .select("rec_id, rec_name, rec_serv_count");
+          .select(
+            "rec_id, rec_name, rec_serv_count, rec_serv_cal, rec_serv_prot, rec_serv_fat, rec_serv_carb, rec_serv_cost"
+          );
         const data = response.data;
         setRecipes(data);
         console.log(data);
@@ -148,11 +149,11 @@ export default function RecipeBook() {
           rec_serv_count: servingCount,
           rec_ind_cook_time: indCookTime,
           rec_total_cook_time: totalCookTime,
-          rec_serv_cal: servingCalories,
-          rec_serv_prot: servingProtein,
-          rec_serv_fat: servingFat,
-          rec_serv_carb: servingCarbohydrate,
-          rec_serv_cost: servingCost,
+          // rec_serv_cal: servingCalories,
+          // rec_serv_prot: servingProtein,
+          // rec_serv_fat: servingFat,
+          // rec_serv_carb: servingCarbohydrate,
+          // rec_serv_cost: servingCost,
           rec_time_since_eaten: timeSinceLastEaten,
           user_id: uid,
         },
@@ -226,7 +227,7 @@ export default function RecipeBook() {
             <TableRow>
               <TableCell>Recipe</TableCell>
               <TableCell align="right">Servings</TableCell>
-              <TableCell>Ingredients</TableCell>
+              <TableCell>Nutrition Facts</TableCell>
               <TableCell align="right">Edit</TableCell>
               <TableCell align="right">Delete</TableCell>
             </TableRow>
@@ -242,6 +243,12 @@ export default function RecipeBook() {
                   <Button
                     onClick={() => {
                       setOpenViewModal(true);
+
+                      setServingCalories(recipe.rec_serv_cal);
+                      setServingProtein(recipe.rec_serv_prot);
+                      setServingFat(recipe.rec_serv_fat);
+                      setServingCarbohydrate(recipe.rec_serv_carb);
+                      setServingCost(recipe.rec_serv_cost);
                     }}
                   >
                     Nutrition
@@ -255,11 +262,6 @@ export default function RecipeBook() {
                       setRecipeName(recipe.rec_name);
                       setServingCount(recipe.rec_serv_count);
                       setTotalCookTime(recipe.rec_total_cook_time);
-                      // setServingCalories(HELP);
-                      // setServingProtein(HELP);
-                      // setServingFat(HELP);
-                      // setServingCarbohydrate(HELP);
-                      // setServingCost(HELP);
 
                       setEditRecipeId(recipe.rec_id);
                     }}
@@ -333,7 +335,7 @@ export default function RecipeBook() {
               value={indCookTime}
               onChange={(e) => setIndCookTime(e.target.value)}
             />
-            <TextField
+            {/* <TextField
               label="Calories per Serving"
               variant="outlined"
               margin="normal"
@@ -377,7 +379,7 @@ export default function RecipeBook() {
               required
               value={servingCost}
               onChange={(e) => setServingCost(e.target.value)}
-            />
+            /> */}
             <TextField
               label="Time Since Last Eaten"
               variant="outlined"
@@ -451,11 +453,11 @@ export default function RecipeBook() {
         >
           <h3>Nutrition Data</h3>
           <div>
-            <p>Total Protein: {}</p>
-            <p>Total Fat: {}</p>
-            <p>Total Carbohydrate: {}</p>
-            <p>Total Calories: {}</p>
-            <p>Total Cost: {}</p>
+            <p>Total Protein: {servingProtein}</p>
+            <p>Total Fat: {servingFat}</p>
+            <p>Total Carbohydrate: {servingCarbohydrate}</p>
+            <p>Total Calories: {servingCalories}</p>
+            <p>Total Cost: {servingCost}</p>
           </div>
         </Box>
       </Modal>

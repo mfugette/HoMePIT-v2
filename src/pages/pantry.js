@@ -6,13 +6,6 @@ import {
   Button,
   Modal,
   TextField,
-  InputLabel,
-  Select,
-  OutlinedInput,
-  MenuProps,
-  MenuItem,
-  Checkbox,
-  ListItemText,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditNoteIcon from "@mui/icons-material/EditNote";
@@ -29,7 +22,6 @@ function getRandomInt(min, max) {
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-// you need a function that looks at all ing_id's and returns an array of nums all without any already present ing_id
 
 export default function Pantry() {
   const [ingredients, setIngredients] = React.useState([]);
@@ -47,9 +39,9 @@ export default function Pantry() {
 
   const supabase = useSupabaseClient();
 
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  // const [open, setOpen] = React.useState(false);
+  // const handleOpen = () => setOpen(true);
+  // const handleClose = () => setOpen(false);
 
   const [openAddModal, setOpenAddModal] = React.useState(false);
   const [openViewModal, setOpenViewModal] = React.useState(false);
@@ -132,6 +124,7 @@ export default function Pantry() {
           Add New Ingredient
         </Button>
       </div>
+
       <div className="centered">
         <h3>Your Ingredients</h3>
       </div>
@@ -255,7 +248,7 @@ export default function Pantry() {
                 <TableRow>
                   <TableCell>Ingredient</TableCell>
                   <TableCell align="right">Quantity</TableCell>
-                  <TableCell>Units</TableCell>
+                  <TableCell>Nutrition Facts</TableCell>
                   <TableCell align="right">Edit</TableCell>
                   <TableCell align="right">Delete</TableCell>
                 </TableRow>
@@ -271,7 +264,22 @@ export default function Pantry() {
                     </TableCell>
                     <TableCell align="right">{ingredient.ing_qnt}</TableCell>
                     <TableCell align="right">
-                      {ingredient.ing_serv_cal}
+                      <Button
+                        onClick={() => {
+                          setOpenViewModal(true);
+
+                          setCalories(ingredient.ing_serv_cal);
+                          setProtein(ingredient.ing_serv_prot);
+                          setFat(ingredient.ing_serv_fat);
+                          setCarbohydrate(ingredient.ing_serv_carb);
+                          setPurchasedServings(
+                            ingredient.ing_purchase_serv_cnt
+                          );
+                          setCost(ingredient.ing_purchase_cost);
+                        }}
+                      >
+                        Nutrition
+                      </Button>
                     </TableCell>
                     <TableCell align="right">
                       <Button
@@ -311,6 +319,29 @@ export default function Pantry() {
           </TableContainer>
         </div>
       </div>
+      <Modal open={openViewModal} onClose={() => setOpenViewModal(false)}>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 400,
+            bgcolor: "background.paper",
+            boxShadow: 24,
+            p: 4,
+          }}
+        >
+          <h3>Nutrition Data</h3>
+          <div>
+            <p>Total Protein: {protein}</p>
+            <p>Total Fat: {fat}</p>
+            <p>Total Carbohydrate: {carbohydrate}</p>
+            <p>Total Calories: {calories}</p>
+            <p>Total Cost: {cost}</p>
+          </div>
+        </Box>
+      </Modal>
     </div>
   );
 }

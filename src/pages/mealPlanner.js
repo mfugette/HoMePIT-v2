@@ -20,7 +20,11 @@ import {
   ListItem,
   ListItemText,
 } from "@mui/material";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import { renderTimeViewClock } from "@mui/x-date-pickers/timeViewRenderers";
 import { DatePicker } from "@mui/x-date-pickers";
+import { StaticDateTimePicker } from "@mui/x-date-pickers/StaticDateTimePicker";
+import { MobileDateTimePicker } from "@mui/x-date-pickers/MobileDateTimePicker";
 
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateField } from "@mui/x-date-pickers/DateField";
@@ -89,7 +93,6 @@ export default function MealPlanner() {
           .select("rec_id, rec_name, rec_serv_count");
         const data = response.data;
         setRecipes(data);
-        //console.log(data);
       } catch (error) {
         console.error(error);
       }
@@ -128,24 +131,6 @@ export default function MealPlanner() {
         },
       ]);
 
-      // addEvent = () => {
-      //   let newEvent = {
-      //     id: data.meal_id,
-      //     title: data.meal_type,
-      //     color: "#333333",
-      //     start: data.meal_time_start_cook,
-      //     end: data.meal_date_time,
-      //     custom: `Meal ${data.meal_id}`,
-      //   };
-
-      //   setState((state) => {
-      //     return {
-      //       ...state,
-      //       externalEvents: state.externalEvents.concat(newEvent),
-      //     };
-      //   });
-      // };
-
       if (mealRecipes.length) {
         for (const recipe of mealRecipes) {
           await createMealRecipe(
@@ -163,7 +148,6 @@ export default function MealPlanner() {
 
   useEffect(() => {
     const readMeal = async () => {
-      
       try {
         const response = await supabase
           .from("Meals")
@@ -183,7 +167,7 @@ export default function MealPlanner() {
             custom: `Meal ${meal.meal_id}`,
           };
         });
-        console.log(newEvents)
+        console.log(newEvents);
 
         setState((state) => {
           return {
@@ -198,7 +182,6 @@ export default function MealPlanner() {
 
     readMeal();
   }, []);
-
 
   const deleteMeal = async (id) => {
     try {
@@ -243,8 +226,8 @@ export default function MealPlanner() {
       id: eventInfo.draggedEl.getAttribute("data-id"),
       title: eventInfo.draggedEl.getAttribute("title"),
       color: eventInfo.draggedEl.getAttribute("data-color"),
-      // start: eventInfo.date,
-      // end: eventInfo.date,
+      start: eventInfo.date,
+      end: eventInfo.date,
       custom: eventInfo.draggedEl.getAttribute("data-custom"),
     };
 
@@ -333,7 +316,7 @@ export default function MealPlanner() {
         >
           <h3>Input Meal Data</h3>
           <form onSubmit={upsertMeal}>
-            <TextField
+            <Select
               label="Meal Type"
               variant="outlined"
               margin="normal"
@@ -341,10 +324,18 @@ export default function MealPlanner() {
               required
               value={mealType}
               onChange={(e) => setMealType(e.target.value)}
-            />
+            >
+              <MenuItem value="Breakfast">Breakfast</MenuItem>
+              <MenuItem value="Brunch">Brunch</MenuItem>
+              <MenuItem value="Lunch">Lunch</MenuItem>
+              <MenuItem value="Dinner">Dinner</MenuItem>
+              <MenuItem value="Dessert">Dessert</MenuItem>
+              <MenuItem value="Snack">Snack</MenuItem>
+            </Select>
+
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker
-                label="Date"
+              <MobileDateTimePicker
+                label="Meal Date/Time"
                 variant="outlined"
                 margin="normal"
                 fullWidth
@@ -352,12 +343,12 @@ export default function MealPlanner() {
                 selected={mealDateTime}
                 onChange={(date) => setMealDateTime(date)}
                 showTimeSelect
-                timeFormat="HH:mm"
               />
             </LocalizationProvider>
+
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker
-                label="cook time"
+              <MobileDateTimePicker
+                label="Cooking Start Time"
                 variant="outlined"
                 margin="normal"
                 fullWidth
@@ -365,18 +356,9 @@ export default function MealPlanner() {
                 selected={mealCookTime}
                 onChange={(date) => setMealCookTime(date)}
                 showTimeSelect
-                timeFormat="HH:mm"
               />
             </LocalizationProvider>
-            {/* <TextField
-              label="Cook Time"
-              variant="outlined"
-              margin="normal"
-              fullWidth
-              required
-              value={mealCookTime}
-              onChange={(e) => setMealCookTime(e.target.value)}
-            /> */}
+
             <TextField
               label="Serving Count"
               variant="outlined"
@@ -386,12 +368,6 @@ export default function MealPlanner() {
               value={mealServingCount}
               onChange={(e) => setMealServingCount(e.target.value)}
             />
-            {/* <LocalizationProvider dateAdapter={AdapterDayjs}> */}
-            {/* <DemoItem label="Date Time">
-                <DateTimeField defaultValue={dayjs("2022-04-17T15:30")} />
-              </DemoItem> */}
-            {/* </LocalizationProvider> */}
-
             <InputLabel id="demo-multiple-checkbox-label">Recipes</InputLabel>
             <Select
               labelId="demo-multiple-checkbox-label"
