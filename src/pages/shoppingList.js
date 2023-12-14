@@ -33,13 +33,15 @@ const Demo = styled("div")(({ theme }) => ({
 }));
 
 export default function ShoppingList() {
+  const [listIngredients, setListIngredients] = React.useState([]);
   const [ingredients, setIngredients] = React.useState([]);
+
   // const [name, setName] = React.useState("");
   // const [quantity, setQuantity] = React.useState();
   // const [threshold, setThreshold] = React.useState();
 
 
-  const [shoppigLists, setShoppingLists]= React.useState([]);
+  const [shoppigLists, setShoppingLists] = React.useState([]);
   const [listId, setListId] = React.useState();
   const [listStartDate, setListStartDate] = React.useState();
   const [listEndDate, setListEndDate] = React.useState();
@@ -53,7 +55,7 @@ export default function ShoppingList() {
   supabase.auth.getUser().then((value) => {
     try {
       setUid(value.data.user.id);
-    } catch {}
+    } catch { }
   });
 
   const upsertShoppingList = async (e) => {
@@ -104,24 +106,38 @@ export default function ShoppingList() {
     }
   };
 
-
-
   useEffect(() => {
     const readIngredient = async () => {
       try {
         const response = await supabase
           .from("Ingredients")
-          .select("ing_id, ing_name, ing_qnt, ing_threshold_qnt")
-          .lte("ing_qnt", 7);
+          .select("ing_id, ing_name");
         const data = response.data;
-        //setThreshold(data.ing_threshold_qnt)
         setIngredients(data);
+        console.log(await supabase.auth.getUser());
       } catch (error) {
         console.error(error);
       }
     };
     readIngredient();
   }, []);
+
+  useEffect(() => {
+    const readListIngredient = async () => {
+      try {
+        const response = await supabase
+          .from("Shopping List Ingredients")
+          .select("ing_id, list_id, ing_qnt_to_buy")
+        const data = response.data;
+        setListIngredients(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    readListIngredient();
+  }, []);
+
+
 
   return (
     <div>
@@ -154,25 +170,25 @@ export default function ShoppingList() {
           <form onSubmit={upsertShoppingList}>
             <h3>Enter List Data</h3>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker 
+              <DatePicker
                 label="List Start Date"
                 variant="outlined"
                 margin="normal"
                 fullWidth
                 required
                 selected={listStartDate}
-                onChange={(date) => setListStartDate(date)} 
-                />
+                onChange={(date) => setListStartDate(date)}
+              />
 
-                <DatePicker 
+              <DatePicker
                 label="List End Date"
                 variant="outlined"
                 margin="normal"
                 fullWidth
                 required
                 selected={listEndDate}
-                onChange={(date) => setListEndDate(date)} 
-                />
+                onChange={(date) => setListEndDate(date)}
+              />
             </LocalizationProvider>
             <Button fullWidth variant="contained" color="primary" type="submit">
               Submit
@@ -189,6 +205,7 @@ export default function ShoppingList() {
                   <TableCell>List ID</TableCell>
                   <TableCell align="right">Start Date</TableCell>
                   <TableCell align="right">End Date</TableCell>
+                  <TableCell align="right">Items</TableCell>
                   <TableCell align="right">Delete</TableCell>
                 </TableRow>
               </TableHead>
@@ -207,6 +224,17 @@ export default function ShoppingList() {
                     </TableCell>
                     <TableCell align="right">
                       <Button
+                        onClick={() => {
+                          setOpenViewModal(true);
+                          setListId(list.list_id);
+
+                        }}
+                      >
+                        Ingredients
+                      </Button>
+                    </TableCell>
+                    <TableCell align="right">
+                      <Button
                         color="error"
                         onClick={() => deleteShoppingList(list.list_id)}
                       >
@@ -220,21 +248,30 @@ export default function ShoppingList() {
           </TableContainer>
         </div>
       </div>
-      {/* <Grid item xs={12} md={6}>
-        
-        <Demo>
-          <List sx={{ bgcolor: 'background.paper' }}>
-            {ingredients.map((ingredient) => (
-              
-              <ListItem key={ingredient.ing_id}>
-                <ListItemText>
-                  {ingredient.ing_name} : {ingredient.ing_qnt}
-                </ListItemText>
-              </ListItem>
+      <Modal open={openViewModal} onClose={() => setOpenViewModal(false)}>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 400,
+            bgcolor: "background.paper",
+            boxShadow: 24,
+            p: 4,
+          }}
+        >
+          <h3>Items to Buy</h3>
+          <div>
+            {listIngredients.map((ingredient) => (
+              <div key={ingredient.ing_id}>
+                <p>Name: {ingredient.ing_name}</p>
+                <p>Quantity: {ingredient.ing_qnt_to_buy}</p>
+              </div>
             ))}
-          </List>
-        </Demo>
-      </Grid> */}
+          </div>
+        </Box>
+      </Modal>
     </div>
   );
 }
