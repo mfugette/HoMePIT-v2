@@ -240,12 +240,13 @@ export default function MealPlanner() {
     <div>
       <div className="centered"></div>
       <div className="Calendar">
-        <div style={{ float: "left", width: "25%" }}>
-          <div style={{ margin: "0 0 20px" }}>
+        <div style={{ float: "left", width: "23%" }}>
+          <div style={{ margin: "0 0 15px" }}>
             <Button
               id="addButton"
               variant="contained"
               color="primary"
+              fullWidth
               onClick={() => setOpenAddModal(true)}
             >
               Add Meal
@@ -278,14 +279,14 @@ export default function MealPlanner() {
             ))}
           </div>
         </div>
-        <div style={{ float: "left", width: "75%" }}>
+        <div style={{ float: "right", width: "100" }}>
           <FullCalendar
             plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-            headerToolbar={{
-              left: "prev, next today",
-              center: "title",
-              right: "dayGridMonth, timeGridWeek, timeGridDay",
-            }}
+            // headerToolbar={{
+            //   left: "prev, next, today",
+            //   center: "title",
+            //   right: "dayGridMonth, timeGridWeek, timeGridDay",
+            // }}
             initialView="dayGridMonth"
             editable={true}
             selectable={true}

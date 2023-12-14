@@ -236,7 +236,7 @@ export default function RecipeBook() {
             {recipes.map((recipe) => (
               <TableRow key={recipe.rec_id}>
                 <TableCell component="th" scope="row">
-                  {recipe.rec_id} : {recipe.rec_name}
+                  {recipe.rec_name}
                 </TableCell>
                 <TableCell align="right">{recipe.rec_serv_count}</TableCell>
                 <TableCell>

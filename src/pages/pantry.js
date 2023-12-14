@@ -256,7 +256,7 @@ export default function Pantry() {
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
                     <TableCell component="th" scope="row">
-                      {ingredient.ing_id}: {ingredient.ing_name}
+                      {ingredient.ing_name}
                     </TableCell>
                     <TableCell align="right">{ingredient.ing_qnt}</TableCell>
                     <TableCell align="right">
