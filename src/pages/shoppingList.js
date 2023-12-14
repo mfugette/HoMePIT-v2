@@ -8,13 +8,6 @@ import {
   List,
   ListItem,
   ListItemText,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
@@ -23,14 +16,13 @@ const Demo = styled("div")(({ theme }) => ({
 }));
 
 export default function ShoppingList() {
-  const [dense, setDense] = React.useState(false);
-  const [secondary, setSecondary] = React.useState(false);
-
   const [ingredients, setIngredients] = React.useState([]);
-  const [name, setName] = React.useState("");
-  const [quantity, setQuantity] = React.useState();
-  const [threshold, setThreshold] = React.useState();
+  // const [name, setName] = React.useState("");
+  // const [quantity, setQuantity] = React.useState();
+  // const [threshold, setThreshold] = React.useState();
   const supabase = useSupabaseClient();
+
+  
 
   useEffect(() => {
     const readIngredient = async () => {

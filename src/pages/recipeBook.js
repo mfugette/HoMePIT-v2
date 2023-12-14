@@ -28,7 +28,7 @@ export default function RecipeBook() {
   const [recipes, setRecipes] = React.useState([]);
   const [recipeName, setRecipeName] = React.useState("");
   const [servingCount, setServingCount] = React.useState();
-  const [indCookTime, setIndCookTime] = React.useState();
+  const [indCookTime, setIndCookTime] = React.useState(0); // set as equat to total cook time
   const [totalCookTime, setTotalCookTime] = React.useState();
   const [servingCalories, setServingCalories] = React.useState();
   const [servingProtein, setServingProtein] = React.useState();
@@ -42,18 +42,18 @@ export default function RecipeBook() {
   const [openViewModal, setOpenViewModal] = React.useState(false);
 
   const [recipeIngredients, setRecipeIngredients] = React.useState([]);
-  const [recipeIngID, setRecIngID] = React.useState();
-  const [recIngName, setRecIngName] = React.useState("");
-  const [recIngQnt, setRecIngQnt] = React.useState();
-  const [recIngTotalCal, setRecIngTotalCal] = React.useState();
-  const [recIngTotalProt, setRecIngTotalProt] = React.useState();
-  const [recIngTotalFat, setRecIngTotalFat] = React.useState();
-  const [recIngTotalCarb, setRecIngTotalCarb] = React.useState();
-  const [recIngTotalCost, setRecIngTotalCost] = React.useState();
+  // const [recipeIngID, setRecIngID] = React.useState();
+  // const [recIngName, setRecIngName] = React.useState("");
+  // const [recIngQnt, setRecIngQnt] = React.useState();
+  // const [recIngTotalCal, setRecIngTotalCal] = React.useState();
+  // const [recIngTotalProt, setRecIngTotalProt] = React.useState();
+  // const [recIngTotalFat, setRecIngTotalFat] = React.useState();
+  // const [recIngTotalCarb, setRecIngTotalCarb] = React.useState();
+  // const [recIngTotalCost, setRecIngTotalCost] = React.useState();
 
   const [selectedIngredients, setSelectedIngredients] = React.useState([]);
   const [selectedRecipeIngredients, setSelectedRecipeIngredients] = React.useState([]);
-  
+
   function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
@@ -62,21 +62,21 @@ export default function RecipeBook() {
 
   const [editRecipeId, setEditRecipeId] = React.useState(getRandomInt(1, 9999));
 
-  const handleChange = (e) => {
-    const {
-      target: { value },
-      checked,
-    } = e;
-    const selectedIngredientId = value;
+  // const handleChange = (e) => {
+  //   const {
+  //     target: { value },
+  //     checked,
+  //   } = e;
+  //   const selectedIngredientId = value;
 
-    if (checked) {
-      setSelectedIngredients([...selectedIngredients, selectedIngredientId]);
-    } else {
-      setSelectedIngredients(
-        selectedIngredients.filter((id) => id !== selectedIngredientId)
-      );
-    }
-  };
+  //   if (checked) {
+  //     setSelectedIngredients([...selectedIngredients, selectedIngredientId]);
+  //   } else {
+  //     setSelectedIngredients(
+  //       selectedIngredients.filter((id) => id !== selectedIngredientId)
+  //     );
+  //   }
+  // };
 
   const supabase = useSupabaseClient();
   supabase.auth.getUser().then((value) => {
@@ -244,6 +244,7 @@ export default function RecipeBook() {
                     onClick={() => {
                       setOpenViewModal(true);
 
+                      //setIndCookTime(0);
                       setServingCalories(recipe.rec_serv_cal);
                       setServingProtein(recipe.rec_serv_prot);
                       setServingFat(recipe.rec_serv_fat);
@@ -326,7 +327,7 @@ export default function RecipeBook() {
               value={totalCookTime}
               onChange={(e) => setTotalCookTime(e.target.value)}
             />
-            <TextField
+            {/* <TextField
               label="Cook Time"
               variant="outlined"
               margin="normal"
@@ -334,7 +335,7 @@ export default function RecipeBook() {
               required
               value={indCookTime}
               onChange={(e) => setIndCookTime(e.target.value)}
-            />
+            /> */}
             {/* <TextField
               label="Calories per Serving"
               variant="outlined"

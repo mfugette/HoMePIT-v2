@@ -39,10 +39,6 @@ export default function Pantry() {
 
   const supabase = useSupabaseClient();
 
-  // const [open, setOpen] = React.useState(false);
-  // const handleOpen = () => setOpen(true);
-  // const handleClose = () => setOpen(false);
-
   const [openAddModal, setOpenAddModal] = React.useState(false);
   const [openViewModal, setOpenViewModal] = React.useState(false);
 

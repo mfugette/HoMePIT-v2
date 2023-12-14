@@ -27,9 +27,7 @@ import { StaticDateTimePicker } from "@mui/x-date-pickers/StaticDateTimePicker";
 import { MobileDateTimePicker } from "@mui/x-date-pickers/MobileDateTimePicker";
 
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DateField } from "@mui/x-date-pickers/DateField";
-import { DateTimeField } from "@mui/x-date-pickers/DateTimeField";
-import { TimeField } from "@mui/x-date-pickers/TimeField";
+
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 //import { DemoItem } from '@mui/x-date-pickers/internals/demo';
@@ -43,8 +41,8 @@ export default function MealPlanner() {
   const [uid, setUid] = React.useState();
 
   const [recipes, setRecipes] = React.useState([]);
-  const [recipeName, setRecipeName] = React.useState("");
-  const [servingCount, setServingCount] = React.useState();
+  // const [recipeName, setRecipeName] = React.useState("");
+  // const [servingCount, setServingCount] = React.useState();
 
   const [mealRecipes, setMealRecipes] = React.useState([]);
 
@@ -52,7 +50,7 @@ export default function MealPlanner() {
   const [openViewModal, setOpenViewModal] = React.useState(false);
 
   const [selectedRecipes, setSelectedRecipes] = React.useState([]);
-  const [selectedMealRecipes, setSelectedMealRecipes] = React.useState([]);
+  // const [selectedMealRecipes, setSelectedMealRecipes] = React.useState([]);
 
   function getRandomInt(min, max) {
     min = Math.ceil(min);
@@ -62,21 +60,21 @@ export default function MealPlanner() {
 
   const [editMealId, setEditMealId] = React.useState(getRandomInt(1, 999));
 
-  const handleChange = (e) => {
-    const {
-      target: { value },
-      checked,
-    } = e;
-    const selectedRecipeId = value;
+  // const handleChange = (e) => {
+  //   const {
+  //     target: { value },
+  //     checked,
+  //   } = e;
+  //   const selectedRecipeId = value;
 
-    if (checked) {
-      setSelectedRecipes([...selectedRecipes, selectedRecipeId]);
-    } else {
-      setSelectedRecipes(
-        selectedRecipes.filter((id) => id !== selectedRecipeId)
-      );
-    }
-  };
+  //   if (checked) {
+  //     setSelectedRecipes([...selectedRecipes, selectedRecipeId]);
+  //   } else {
+  //     setSelectedRecipes(
+  //       selectedRecipes.filter((id) => id !== selectedRecipeId)
+  //     );
+  //   }
+  // };
 
   const supabase = useSupabaseClient();
   supabase.auth.getUser().then((value) => {
@@ -220,7 +218,6 @@ export default function MealPlanner() {
     });
   });
 
-  // handle event receive
   const handleEventReceive = (eventInfo) => {
     const newEvent = {
       id: eventInfo.draggedEl.getAttribute("data-id"),
@@ -316,6 +313,9 @@ export default function MealPlanner() {
         >
           <h3>Input Meal Data</h3>
           <form onSubmit={upsertMeal}>
+          <InputLabel id="demo-multiple-checkbox-label">
+              Meal Type
+            </InputLabel>
             <Select
               label="Meal Type"
               variant="outlined"
